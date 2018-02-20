@@ -1,6 +1,6 @@
 app.controller('MainController', ['$scope', function($scope){
 
-	$scope.ngInt = function(){
+	$scope.init = function(){
 		console.log('main controller init');
 	};
 }]);
