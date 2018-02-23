@@ -3,8 +3,11 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">2015 EI Compilation<button class="col-lg-2 pull-right btn btn-success">Add 
-                Entry</button><button class="col-lg-2 pull-right btn btn-success">Add Region</button></h1>
+                <h1 class="page-header">2015 EI Compilation
+                    <button class="col-lg-2 pull-right btn btn-success">Add Entry</button>
+                    <button class="col-lg-2 pull-right btn btn-success">Add Region</button>
+                    <button class="col-lg-2 pull-right btn btn-success">Add Year</button>
+                </h1>
                 
             </div>                       
             <!-- /.col-lg-12 -->
@@ -37,54 +40,12 @@
                                     <td rowspan="3" class="labels">NCR</td>
                                     <!-- stationary -->
                                     <td class="labels">
-                                        Stationary
+                                        Station
                                     </td>
-                                    <!-- pm -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- co -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- nox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- sox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- voc -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- total -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
+                                    
+                                    <!-- pollutants -->
+                                    <td ng-repeat="pollutant in pollutants.station track by $index">
+                                        {{pollutant}}
                                     </td>
                                 </tr>
 
@@ -93,52 +54,10 @@
                                     <td class="labels">
                                         Mobile
                                     </td>
-                                    <!-- pm -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
 
-                                    <!-- co -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- nox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- sox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- voc -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- total -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
+                                    <!-- pollutants -->
+                                    <td ng-repeat="pollutant in pollutants.station track by $index">
+                                        {{pollutant}}
                                     </td>
                                 </tr>
 
@@ -147,52 +66,10 @@
                                     <td class="labels">
                                         Area
                                     </td>
-                                    <!-- pm -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- co -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- nox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- sox -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- voc -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
-                                    </td>
-
-                                    <!-- total -->
-                                    <td>
-                                        15,078.89
-                                    </td>
-                                    <td>
-                                        5.8105%
+                                   
+                                    <!-- pollutants -->
+                                    <td ng-repeat="pollutant in pollutants.station track by $index">
+                                        {{pollutant}}
                                     </td>
                                 </tr>
                             </tbody>
