@@ -1,63 +1,203 @@
 <div id="wrapper" ng-init="init()">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">DENR EMB</a>
-        </div>
-        <!-- /.navbar-header -->
-
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    
-                    <li>
-                        <a ng-href="#!/main"><i class="fa fa-list-ul fa-fw"></i> Emission Inventory</a>
-                    </li>
-                    
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
-
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">2015 EI Compilation <button class="col-lg-3 pull-right btn btn-success">Add Entry</button></h1>
+                <h1 class="page-header">2015 EI Compilation<button class="col-lg-2 pull-right btn btn-success">Add 
+                Entry</button><button class="col-lg-2 pull-right btn btn-success">Add Region</button></h1>
                 
             </div>                       
             <!-- /.col-lg-12 -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered" >
+                        <table class="table table-striped table-bordered" style="overflow: auto; white-space: nowrap;" >
                             <thead>
                                 <tr>
-                                    <th class="col-md-1">REGION</th>
-                                    <th class="col-md-1">SOURCE</th>
-                                    <th class="col-md-1">PM</th>
-                                    <th class="col-md-1">REGIONAL %</th>
-                                    <th class="col-md-1">CO</th>
-                                    <th class="col-md-1">REGIONAL %</th>
-                                    <th class="col-md-1">NOX</th>
-                                    <th class="col-md-1">REGIONAL %</th>
-                                    <th class="col-md-1">SOX</th>
-                                    <th class="col-md-1">REGIONAL % </th>
-                                    <th class="col-md-1">VOC</th>
-                                    <th class="col-md-1">REGIONAL % </th>
-                                    <th class="col-md-1">TOTAL</th>
-                                    <th class="col-md-1">REGIONAL % </th>
+                                    <th>REGION</th>
+                                    <th>SOURCE</th>
+                                    <th>PM</th>
+                                    <th>REGIONAL %</th>
+                                    <th>CO</th>
+                                    <th>REGIONAL %</th>
+                                    <th>NOX</th>
+                                    <th>REGIONAL %</th>
+                                    <th>SOX</th>
+                                    <th>REGIONAL % </th>
+                                    <th>VOC</th>
+                                    <th>REGIONAL % </th>
+                                    <th>TOTAL</th>
+                                    <th>REGIONAL % </th>
                                 </tr>
                             </thead>
-                            <tbody>
+
+                            <tbody ng-repeat="region in regions">
+                                <tr>
+                                    <!-- region -->
+                                    <td rowspan="3" class="labels">NCR</td>
+                                    <!-- stationary -->
+                                    <td class="labels">
+                                        Stationary
+                                    </td>
+                                    <!-- pm -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- co -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- nox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- sox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- voc -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- total -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <!-- stationary -->
+                                    <td class="labels">
+                                        Mobile
+                                    </td>
+                                    <!-- pm -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- co -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- nox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- sox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- voc -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- total -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <!-- area -->
+                                    <td class="labels">
+                                        Area
+                                    </td>
+                                    <!-- pm -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- co -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- nox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- sox -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- voc -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+
+                                    <!-- total -->
+                                    <td>
+                                        15,078.89
+                                    </td>
+                                    <td>
+                                        5.8105%
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <!-- <tbody>
                                 <tr ng-repeat="(key, value) in allVerifications">
                                     <td>{{value.id}}</td>
                                     <td>{{value.verification_applied_date}}</td>
@@ -68,7 +208,7 @@
                                 <tr ng-if="isEmpty">
                                     <td colspan="3" class="center">No exams found.</td>
                                 </tr>
-                            </tbody>
+                            </tbody> -->
                         </table>
                     </div>
                 </div>
