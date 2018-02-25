@@ -1,4 +1,4 @@
-app.controller('MainController', ['$scope', function($scope){
+app.controller('MainController', ['$scope', '$q', function($scope, $q){
 
 	$scope.years = [];
 	$scope.regions = [];
@@ -10,18 +10,42 @@ app.controller('MainController', ['$scope', function($scope){
 	$scope.year = {};
 
 	$scope.init = function(){
-		mockValues();
+		firebaseSignIn()
+		.then(function(result){
+			console.log('success callback', result);
+			mockValues();
+			console.log('firebase auth', firebase.auth().currentUser);
+		})
+		.catch(function(error){
+			console.log('error callback', error)
+		});
+		// mockValues();
+	};
+
+	var firebaseSignIn = function(){
+		var deffered = $q.defer();
+
+		firebase.auth().signInAnonymously()
+		.then(function(result){
+			deffered.resolve(result);			
+		})
+		.catch(function(error){
+			deffered.reject(error.message)
+		});
+
+		return deffered.promise;
 	};
 
 	var mockValues = function(){
+		console.log('mock values');
 		$scope.year.regions = regions;
 		$scope.year.pollutants = {};
 		$scope.year.pollutants.station = [];
-		$scope.year.pollutants.station = mockPollutants(12);
+		$scope.year.pollutants.station = mockPollutants(12); // station values
 		$scope.year.pollutants.mobile = [];
-		$scope.year.pollutants.mobile = mockPollutants(12);
+		$scope.year.pollutants.mobile = mockPollutants(12); // mobile values
 		$scope.year.pollutants.area = [];
-		$scope.year.pollutants.area = mockPollutants(12);
+		$scope.year.pollutants.area = mockPollutants(12); // area values
 		$scope.year.pollutants_header = generatePollutantHeader(pollutants);
 	};
 
