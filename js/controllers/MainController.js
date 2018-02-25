@@ -3,19 +3,26 @@ app.controller('MainController', ['$scope', function($scope){
 	$scope.years = [];
 	$scope.regions = [];
 	$scope.pollutants = {};
+	var pollutants = ["PM","CO","SOX","NOX","VOC"];
+	// var pollutants = [];
+	var regions = ["Region 1","Region 2","Region 3","NCR","Region 4a","Region 4b","CAR"];
+	// var regions = [];
+	$scope.year = {};
 
 	$scope.init = function(){
-		console.log('main controller init');
-
 		mockValues();
-
 	};
 
 	var mockValues = function(){
-		$scope.regions = mockRegions(10);
-		$scope.pollutants.station = mockPollutants(12);
-		$scope.pollutants.mobile = mockPollutants(12);
-		$scope.pollutants.area = mockPollutants(12);
+		$scope.year.regions = regions;
+		$scope.year.pollutants = {};
+		$scope.year.pollutants.station = [];
+		$scope.year.pollutants.station = mockPollutants(12);
+		$scope.year.pollutants.mobile = [];
+		$scope.year.pollutants.mobile = mockPollutants(12);
+		$scope.year.pollutants.area = [];
+		$scope.year.pollutants.area = mockPollutants(12);
+		$scope.year.pollutants_header = generatePollutantHeader(pollutants);
 	};
 
 	var mockRegions = function(numberOfMockItems){
@@ -50,4 +57,17 @@ app.controller('MainController', ['$scope', function($scope){
 
 		return mockPollutants;
 	}
+
+	var generatePollutantHeader = function(pollutants){
+		var pollutantHeaders = [];
+
+		for (var i = 0; i < pollutants.length; i++){
+			pollutantHeaders.push(pollutants[i]);
+			pollutantHeaders.push('Regional %');
+		}
+		pollutantHeaders.push('Total');
+		pollutantHeaders.push('Regional %');
+
+		return pollutantHeaders;
+	};
 }]);

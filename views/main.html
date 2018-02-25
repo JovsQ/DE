@@ -6,7 +6,7 @@
                 <h1 class="page-header">2015 EI Compilation
                     <button class="col-lg-2 pull-right btn btn-success">Add Entry</button>
                     <button class="col-lg-2 pull-right btn btn-success">Add Region</button>
-                    <button class="col-lg-2 pull-right btn btn-success">Add Year</button>
+                    <button class="col-lg-2 pull-right btn btn-success" disabled="true">Add Year</button>
                 </h1>
                 
             </div>                       
@@ -19,33 +19,22 @@
                                 <tr>
                                     <th>REGION</th>
                                     <th>SOURCE</th>
-                                    <th>PM</th>
-                                    <th>REGIONAL %</th>
-                                    <th>CO</th>
-                                    <th>REGIONAL %</th>
-                                    <th>NOX</th>
-                                    <th>REGIONAL %</th>
-                                    <th>SOX</th>
-                                    <th>REGIONAL % </th>
-                                    <th>VOC</th>
-                                    <th>REGIONAL % </th>
-                                    <th>TOTAL</th>
-                                    <th>REGIONAL % </th>
+                                    <th ng-repeat="pollutant in year.pollutants_header track by $index">{{pollutant}}</th>
                                 </tr>
                             </thead>
 
-                            <tbody ng-repeat="region in regions">
+                            <tbody ng-repeat="region in year.regions">
                                 <tr>
                                     <!-- region -->
-                                    <td rowspan="3" class="labels">NCR</td>
+                                    <td rowspan="3" class="labels">{{region}}</td>
                                     <!-- stationary -->
                                     <td class="labels">
                                         Station
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="pollutant in pollutants.station track by $index">
-                                        {{pollutant}}
+                                    <td ng-repeat="station in year.pollutants.station track by $index">
+                                        {{station}}
                                     </td>
                                 </tr>
 
@@ -56,8 +45,8 @@
                                     </td>
 
                                     <!-- pollutants -->
-                                    <td ng-repeat="pollutant in pollutants.station track by $index">
-                                        {{pollutant}}
+                                    <td ng-repeat="mobile in year.pollutants.mobile track by $index">
+                                        {{mobile}}
                                     </td>
                                 </tr>
 
@@ -68,8 +57,8 @@
                                     </td>
                                    
                                     <!-- pollutants -->
-                                    <td ng-repeat="pollutant in pollutants.station track by $index">
-                                        {{pollutant}}
+                                    <td ng-repeat="area in year.pollutants.area track by $index">
+                                        {{area}}
                                     </td>
                                 </tr>
                             </tbody>
