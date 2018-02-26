@@ -11,7 +11,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.emission_year = [];
 	$scope.hasReadings = false;
 
-	$scope.selected_year = 2005;
+	$scope.selected_year;
 
 	$scope.addRegion = function(){
 		var modalInstance = $uibModal.open({
@@ -30,22 +30,48 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 	};
 
-	$scope.addYear = function(year){
-		databaseService.addYear(year)
-		.then(function(result){
-			console.log('result', result);
-		}, function(error){
-			console.log('error', error);
-		})
+	$scope.addYear = function(){
+		var modalInstance = $uibModal.open({
+		  	animation: true,
+		  	component: 'addYearComponent',
+		  	resolve: {
+		      	years: function(){
+		      		return $scope.years;
+		      	}
+		  	}
+		});
+
+		modalInstance.result.then(function(value){
+			console.log('result', value);
+		}, function () {
+		});
+
+		// databaseService.addYear(year)
+		// .then(function(result){
+		// 	console.log('result', result);
+		// }, function(error){
+		// 	console.log('error', error);
+		// })
 	};
 
+	$scope.addYearDisabled = true;
+
 	$scope.init = function(){
-		mockEmissionYear();
 		firebaseSignIn()
 		.then(function(result){
 			// console.log('success callback', result);
 			// mockValues();
 			// console.log('firebase auth', firebase.auth().currentUser);
+
+			databaseService.getAllYears()
+			.then(function(result){
+				console.log('result', result);
+				$scope.years = result;
+				$scope.addYearDisabled = false;
+			})
+			.catch(function(error){
+				console.log('error', error);
+			});
 		})
 		.catch(function(error){
 			// console.log('error callback', error)
