@@ -44,7 +44,7 @@ app.component('addYearComponent', {
 		$ctrl.ok = function(value){
 			// $ctrl.close({$value: value});
 			console.log('value', value);
-			databaseService.addYear(value)
+			databaseService.addNewYear(value)
 			.then(function(result){
 				console.log('result', result);
 				$ctrl.close({$value: true});

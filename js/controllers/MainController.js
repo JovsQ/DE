@@ -42,7 +42,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 
 		modalInstance.result.then(function(value){
-			console.log('result', value);
+			console.log('YEAR ADDED', value);
 			$scope.init();
 		}, function () {
 		});
@@ -66,7 +66,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 			databaseService.getAllYears()
 			.then(function(result){
-				console.log('result', result);
+				console.log('GET ALL YEARS', result);
 				$scope.years = result;
 				if (result.length > 0) {
 					$scope.selected_year = result[0].name;	

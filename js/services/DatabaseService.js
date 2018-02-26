@@ -6,6 +6,50 @@ app.service('databaseService', ['$q', function($q){
 	this.pollutantsRef = firebase.database().ref('pollutants/');
 
 
+	this.addNewYear = function(year){
+		var deffered = $q.defer();
+		var promises = [];
+
+		self.checkYearExist(year)
+		.then(function(result){
+			if (!result) {
+				promises.push(self.addYearToList(year));
+
+				$q.all(promises)
+				.then(function(promisesResult){
+					deffered.resolve(promisesResult);
+				})
+				.catch(function(error){
+					deffered.reject(error);
+				})
+			}
+		});
+
+		
+
+		return deffered.promise;
+	};
+
+	this.addYearToList = function(year){
+		var deffered = $q.defer();
+		var years = {
+			name: year
+		}
+
+		var onComplete = function(error){
+			if (error) {
+				deffered.reject(error.message);
+			} else {
+				console.log('ADD YEAR TO LIST');
+				deffered.resolve('year added');
+			}
+		}
+
+		self.yearsRef.push(years, onComplete);
+
+		return deffered.promise;
+	};
+
 	this.addYear = function(year){
 		var deffered = $q.defer();
 		var years = {
