@@ -11,9 +11,9 @@
         <option ng-repeat="year in $ctrl.filtered_years" ng-value="year">{{year}}</option>
       </select>
     </div>
-    
+
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)">Add</button>
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.selectedYear)">Add</button>
   </div>
 </div>

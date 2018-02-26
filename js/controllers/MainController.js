@@ -43,6 +43,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		modalInstance.result.then(function(value){
 			console.log('result', value);
+			$scope.init();
 		}, function () {
 		});
 
@@ -67,6 +68,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			.then(function(result){
 				console.log('result', result);
 				$scope.years = result;
+				if (result.length > 0) {
+					$scope.selected_year = result[0].name;	
+				}				
 				$scope.addYearDisabled = false;
 			})
 			.catch(function(error){
