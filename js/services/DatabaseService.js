@@ -101,10 +101,30 @@ app.service('databaseService', ['$q', function($q){
 				var year = {};
 				year.key = childSnapshot.key;
 				year.year = childSnapshot.val().year;
-
+				year.regions = childSnapshot.val().regions;
 				years.push(year);
 			});
 			deffered.resolve(years);
+		});
+
+		return deffered.promise;
+	};
+
+	this.checkIfRegionExist = function(yearId, regionName){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deffered = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var exist = false;
+
+			var regions = snapshot.val().regions;
+			regions.forEach(function(region){
+				if (region.region == regionName) {
+					exist = true;
+				}
+			})
+
+			deffered.resolve(exist);
 		});
 
 		return deffered.promise;

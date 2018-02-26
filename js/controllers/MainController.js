@@ -9,7 +9,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	// var regions = [];
 	$scope.year = {};
 	$scope.emission_year = [];
-	$scope.hasReadings = false;
 
 	$scope.selected_year;
 
@@ -62,10 +61,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 			databaseService.getAllYears()
 			.then(function(result){
-				console.log('GET ALL YEARS', result);
 				$scope.years = result;
 				if (result.length > 0) {
-					$scope.selected_year = result[0];	
+					$scope.selected_year = result[0];
 				}				
 				$scope.addYearDisabled = false;
 			})
@@ -157,5 +155,12 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		}
 
 		return pollutantHeaders;
+	};
+
+	$scope.hasReadings = function(){
+		// return typeof $scope.selected_year != 'undefined' ? $scope.selected_year.regions.length > 0 ? true : false : false;
+		// return typeof $scope.selected_year != 'undefined' ? typeof $scope.selected_year.regions != 'undefined' ? 
+		// $scope.selected_year.regions > 0 ? true : false : false : false;
+		return typeof $scope.selected_year != 'undefined' ? typeof $scope.selected_year.regions != 'undefined' ? $scope.selected_year.regions.length > 0 ? true : false : false : false;
 	};
 }]);

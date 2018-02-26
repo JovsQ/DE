@@ -16,13 +16,19 @@ app.component('addRegionComponent', {
 		$ctrl.ok = function(value){
 			// $ctrl.close({$value: value});
 			// console.log('region', value);
-			databaseService.addRegion($ctrl.resolve.year.key, value)
-			.then(function(result){
-				console.log('result', result);
-				$ctrl.close({$value: true});
-			})
-			.catch(function(error){
 
+			// databaseService.addRegion($ctrl.resolve.year.key, value)
+			// .then(function(result){
+			// 	console.log('result', result);
+			// 	$ctrl.close({$value: true});
+			// })
+			// .catch(function(error){
+
+			// });
+
+			databaseService.checkIfRegionExist($ctrl.resolve.year.key, value)
+			.then(function(result){
+				console.log('REGION EXIST?', result);
 			});
 		};
 
