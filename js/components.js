@@ -63,7 +63,7 @@ app.component('addYearComponent', {
 			for (var i = (new Date()).getFullYear(); i >= 2005; i--){
 				var yearExist = false;
 				$ctrl.years.forEach(function(year){
-					if (i == year.name) {
+					if (i == year.year) {
 						yearExist = true;
 					}
 				});

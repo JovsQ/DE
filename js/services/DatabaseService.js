@@ -24,7 +24,6 @@ app.service('databaseService', ['$q', function($q){
 				})
 			}
 		});
-
 		
 
 		return deffered.promise;
@@ -33,7 +32,7 @@ app.service('databaseService', ['$q', function($q){
 	this.addYearToList = function(year){
 		var deffered = $q.defer();
 		var years = {
-			name: year
+			year: year
 		}
 
 		var onComplete = function(error){
@@ -99,7 +98,7 @@ app.service('databaseService', ['$q', function($q){
 			snapshot.forEach(function(childSnapshot){
 				var year = {};
 				year.key = childSnapshot.key;
-				year.name = childSnapshot.val().name;
+				year.year = childSnapshot.val().year;
 
 				years.push(year);
 			});

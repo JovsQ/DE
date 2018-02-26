@@ -69,7 +69,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				console.log('GET ALL YEARS', result);
 				$scope.years = result;
 				if (result.length > 0) {
-					$scope.selected_year = result[0].name;	
+					$scope.selected_year = result[0].year;	
 				}				
 				$scope.addYearDisabled = false;
 			})
