@@ -32,7 +32,8 @@ app.service('databaseService', ['$q', function($q){
 	this.addYearToList = function(year){
 		var deffered = $q.defer();
 		var years = {
-			year: year
+			year: year,
+			date_added: (new Date()).toString()
 		}
 
 		var onComplete = function(error){
@@ -94,8 +95,9 @@ app.service('databaseService', ['$q', function($q){
 	this.getAllYears = function(){
 		var deffered = $q.defer();
 		var years = [];
-		self.yearsRef.once('value', function(snapshot){
+		self.yearsRef.orderByChild('year').once('value', function(snapshot){
 			snapshot.forEach(function(childSnapshot){
+				console.log('RESULT', childSnapshot.val());
 				var year = {};
 				year.key = childSnapshot.key;
 				year.year = childSnapshot.val().year;
@@ -106,6 +108,34 @@ app.service('databaseService', ['$q', function($q){
 		});
 
 		return deffered.promise;
-	}
+	};
+
+	this.addRegion = function(yearId, regionName){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deffered = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var year = snapshot.val();
+			var region = {
+				region: regionName,
+				date_added: (new Date()).toString()
+			}
+			if (typeof year.regions == 'undefined') {
+				year.regions = [];
+			}
+			year.regions.push(region);
+
+			var updateYear = {};
+			updateYear[snapshot.key] = year;
+			self.yearsRef.update(updateYear, function(){
+				deffered.resolve(year);
+			});
+
+		}, function(error){
+			deffered.reject(error.message);
+		});
+
+		return deffered.promise;
+	};
 
 }]);

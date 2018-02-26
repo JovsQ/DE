@@ -14,20 +14,23 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.selected_year;
 
 	$scope.addRegion = function(){
-		var modalInstance = $uibModal.open({
-		  	animation: true,
-		  	component: 'addRegionComponent',
-		  	resolve: {
-		      	year: function(){
-		      		return $scope.selected_year;
-		      	}
-		  	}
-		});
+		if (typeof $scope.selected_year != 'undefined') {
+			var modalInstance = $uibModal.open({
+			  	animation: true,
+			  	component: 'addRegionComponent',
+			  	resolve: {
+			      	year: function(){
+			      		return $scope.selected_year;
+			      	}
+			  	}
+			});
 
-		modalInstance.result.then(function(value){
-			console.log('result', value);
-		}, function () {
-		});
+			modalInstance.result.then(function(value){
+				console.log('result', value);
+			}, function () {
+			});	
+		}	
+		
 	};
 
 	$scope.addYear = function(){
@@ -46,13 +49,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			$scope.init();
 		}, function () {
 		});
-
-		// databaseService.addYear(year)
-		// .then(function(result){
-		// 	console.log('result', result);
-		// }, function(error){
-		// 	console.log('error', error);
-		// })
 	};
 
 	$scope.addYearDisabled = true;
@@ -69,7 +65,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				console.log('GET ALL YEARS', result);
 				$scope.years = result;
 				if (result.length > 0) {
-					$scope.selected_year = result[0].year;	
+					$scope.selected_year = result[0];	
 				}				
 				$scope.addYearDisabled = false;
 			})

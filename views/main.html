@@ -3,12 +3,9 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                
-                    <select class="form-control" ng-model="selected_year" style="width: 150px; height: 50px; font-size: 30px">
-                        <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
-                    </select>{{selected_year}} EI Compilation 
+                <h1 class="page-header">{{selected_year.year}} EI Compilation 
                     <button class="col-lg-2 pull-right btn btn-success">Add Entry</button>
-                    <button class="col-lg-2 pull-right btn btn-success" ng-click="addRegion()">Add Region</button>
+                    <button class="col-lg-2 pull-right btn btn-success" ng-click="addRegion()" ng-disabled="addYearDisabled == true">Add Region</button>
                     <button class="col-lg-2 pull-right btn btn-success" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button>
                 </h1>
                 
