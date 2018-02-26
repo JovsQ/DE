@@ -1,4 +1,4 @@
-app.controller('MainController', ['$scope', '$q', function($scope, $q){
+app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService', function($scope, $q, $uibModal, databaseService){
 
 	$scope.years = [];
 	$scope.regions = [];
@@ -8,19 +8,59 @@ app.controller('MainController', ['$scope', '$q', function($scope, $q){
 	var regions = ["Region 1","Region 2","Region 3","NCR","Region 4a","Region 4b","CAR"];
 	// var regions = [];
 	$scope.year = {};
+	$scope.emission_year = [];
+	$scope.hasReadings = false;
+
+	$scope.selected_year = 2005;
+
+	$scope.addRegion = function(){
+		var modalInstance = $uibModal.open({
+		  	animation: true,
+		  	component: 'addRegionComponent',
+		  	resolve: {
+		      	year: function(){
+		      		return $scope.selected_year;
+		      	}
+		  	}
+		});
+
+		modalInstance.result.then(function(value){
+			console.log('result', value);
+		}, function () {
+		});
+	};
+
+	$scope.addYear = function(year){
+		databaseService.addYear(year)
+		.then(function(result){
+			console.log('result', result);
+		}, function(error){
+			console.log('error', error);
+		})
+	};
 
 	$scope.init = function(){
+		mockEmissionYear();
 		firebaseSignIn()
 		.then(function(result){
-			console.log('success callback', result);
-			mockValues();
-			console.log('firebase auth', firebase.auth().currentUser);
+			// console.log('success callback', result);
+			// mockValues();
+			// console.log('firebase auth', firebase.auth().currentUser);
 		})
 		.catch(function(error){
-			console.log('error callback', error)
+			// console.log('error callback', error)
 		});
 		// mockValues();
 	};
+
+	//mock
+	var mockEmissionYear = function() {
+
+		databaseService.getAllYears()
+		.then(function(result){
+			console.log('result', result);
+		});
+	}
 
 	var firebaseSignIn = function(){
 		var deffered = $q.defer();
@@ -89,8 +129,6 @@ app.controller('MainController', ['$scope', '$q', function($scope, $q){
 			pollutantHeaders.push(pollutants[i]);
 			pollutantHeaders.push('Regional %');
 		}
-		pollutantHeaders.push('Total');
-		pollutantHeaders.push('Regional %');
 
 		return pollutantHeaders;
 	};

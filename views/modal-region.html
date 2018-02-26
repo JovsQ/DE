@@ -1,0 +1,15 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="$ctrl.cancel()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Add Region</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="control-label">Region</label>
+      <input type="text" class="form-control" name="" ng-model="$ctrl.value">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)">Add</button>
+  </div>
+</div>

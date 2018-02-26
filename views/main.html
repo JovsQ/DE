@@ -5,21 +5,23 @@
             <div class="col-lg-12">
                 <h1 class="page-header">2015 EI Compilation
                     <button class="col-lg-2 pull-right btn btn-success">Add Entry</button>
-                    <button class="col-lg-2 pull-right btn btn-success">Add Region</button>
-                    <button class="col-lg-2 pull-right btn btn-success" disabled="true">Add Year</button>
+                    <button class="col-lg-2 pull-right btn btn-success" ng-click="addRegion()">Add Region</button>
+                    <button class="col-lg-2 pull-right btn btn-success" ng-click="addYear(2017)">Add Year</button>
                 </h1>
                 
-            </div>                       
+            </div>   
             <!-- /.col-lg-12 -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered" style="overflow: auto; white-space: nowrap;" >
+                        <table ng-show="hasReadings" class="table table-striped table-bordered" style="overflow: auto; white-space: nowrap;" >
                             <thead>
                                 <tr>
                                     <th>REGION</th>
                                     <th>SOURCE</th>
                                     <th ng-repeat="pollutant in year.pollutants_header track by $index">{{pollutant}}</th>
+                                    <th style="color: red">TOTAL</th>
+                                    <th style="color: red">Regional %</th>
                                 </tr>
                             </thead>
 
@@ -62,20 +64,9 @@
                                     </td>
                                 </tr>
                             </tbody>
-
-                            <!-- <tbody>
-                                <tr ng-repeat="(key, value) in allVerifications">
-                                    <td>{{value.id}}</td>
-                                    <td>{{value.verification_applied_date}}</td>
-                                    <td><button type="button" class="btn btn-success" ng-click="viewImage(value.frontImageUrl, value.backImageUrl)">View</button></td>
-                                    <td><span ng-class="verified(value.id_verification_status) ? 'text-success' : 'text-warning'">{{value.id_verification_status}}</span></td>
-                                    <td><button type="button" class="btn btn-danger" ng-click="verifiyId(key, value.id)" ng-hide="verified(value.id_verification_status)">Verify</button></td>
-                                </tr>
-                                <tr ng-if="isEmpty">
-                                    <td colspan="3" class="center">No exams found.</td>
-                                </tr>
-                            </tbody> -->
                         </table>
+
+                        <div class="labels" ng-hide="hasReadings" style="margin-top: 50px;">No Data to display.</div>
                     </div>
                 </div>
             </div>
