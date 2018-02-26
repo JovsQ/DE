@@ -34,14 +34,11 @@ app.component('addYearComponent', {
 	controller: function($scope, databaseService){
 		var $ctrl = this;
 		$ctrl.years = [];
+		$ctrl.filtered_years = [];
 
 		$ctrl.$onInit = function(){
 			$ctrl.years = $ctrl.resolve.years;
-			console.log('years', $ctrl.years);
-			$ctrl.years.forEach(function(year){
-				console.log('year', year.name);
-			});
-			// getYearsFrom2005();
+			getYearsFrom2005();
 		};
 
 		$ctrl.ok = function(value){
@@ -53,11 +50,21 @@ app.component('addYearComponent', {
 		};
 
 		var getYearsFrom2005 = function(){
-			var years = [];
-			for (var i = 2005; i <= (new Date()).getFullYear(); i++){
-
-				years.push(i);
+			$ctrl.filtered_years = [];
+			for (var i = (new Date()).getFullYear(); i >= 2005; i--){
+				var yearExist = false;
+				$ctrl.years.forEach(function(year){
+					if (i == year.name) {
+						yearExist = true;
+					}
+				});
+				if (!yearExist) {
+					$ctrl.filtered_years.push(i);	
+				}
 			};
+			if ($ctrl.filtered_years.length > 0) {
+				$ctrl.selectedYear = $ctrl.filtered_years[0];	
+			}			
 		};
 	}
 });

@@ -4,10 +4,14 @@
     <h4 class="modal-title">Add Year</h4>
   </div>
   <div class="modal-body">
+
     <div class="form-group">
-      <label class="control-label">Year</label>
-      <input type="text" class="form-control" name="" ng-model="$ctrl.value">
+      <label class="control-label">Years</label>
+      <select class="form-control" ng-model="$ctrl.selectedYear">
+        <option ng-repeat="year in $ctrl.filtered_years" ng-value="year">{{year}}</option>
+      </select>
     </div>
+    
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)">Add</button>
