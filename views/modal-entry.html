@@ -41,6 +41,6 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)">Add</button>
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)" ng-disabled="!$ctrl.selectedRegion || !$ctrl.selectedSource || !$ctrl.selectedPollutant || !$ctrl.value">Add</button>
   </div>
 </div>
