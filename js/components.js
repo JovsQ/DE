@@ -13,22 +13,24 @@ app.component('addRegionComponent', {
 			console.log('add region modal init');
 		};
 
-		$ctrl.ok = function(value){
-			// $ctrl.close({$value: value});
-			// console.log('region', value);
+		$ctrl.ok = function(regionName){
 
-			// databaseService.addRegion($ctrl.resolve.year.key, value)
-			// .then(function(result){
-			// 	console.log('result', result);
-			// 	$ctrl.close({$value: true});
-			// })
-			// .catch(function(error){
+			var yearId = $ctrl.resolve.year.key;
 
-			// });
 
-			databaseService.checkIfRegionExist($ctrl.resolve.year.key, value)
+			databaseService.checkIfRegionExist(yearId, regionName)
 			.then(function(result){
-				console.log('REGION EXIST?', result);
+				if (!result) {
+					databaseService.addRegion(yearId, regionName)
+					.then(function(addRegionResult){
+						$ctrl.close({$value: true});
+					})
+					.catch(function(error){
+						console.log(error);
+					})
+				} else {
+					console.log('region exist');
+				}
 			});
 		};
 

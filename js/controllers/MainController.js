@@ -26,6 +26,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 			modalInstance.result.then(function(value){
 				console.log('result', value);
+				$scope.init();
 			}, function () {
 			});	
 		}	
