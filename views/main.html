@@ -43,9 +43,12 @@
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="station in year.pollutants.station track by $index">
-                                        {{station}}
+                                    <td ng-repeat="station in pollutants_header track by $index">
+                                       <!--  {{station}} -->
                                     </td>
+
+                                    <td></td>
+                                    <td></td>
                                 </tr>
 
                                 <tr>
@@ -55,9 +58,12 @@
                                     </td>
 
                                     <!-- pollutants -->
-                                    <td ng-repeat="mobile in year.pollutants.mobile track by $index">
-                                        {{mobile}}
+                                    <td ng-repeat="mobile in pollutants_header track by $index">
+                                        <!-- {{mobile}} -->
                                     </td>
+
+                                    <td></td>
+                                    <td></td>
                                 </tr>
 
                                 <tr>
@@ -67,9 +73,12 @@
                                     </td>
                                    
                                     <!-- pollutants -->
-                                    <td ng-repeat="area in year.pollutants.area track by $index">
-                                        {{area}}
+                                    <td ng-repeat="area in pollutants_header track by $index">
+                                        <!-- {{area}} -->
                                     </td>
+
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

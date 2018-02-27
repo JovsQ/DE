@@ -11,6 +11,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.emission_year = [];
 
 	$scope.selected_year;
+	$scope.pollutants_header = [];
 
 	$scope.addEntry = function(){
 		var modalInstance = $uibModal.open({
@@ -82,6 +83,18 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			$scope.init();
 		}, function () {
 		});
+
+		// console.log('RAW POLLUTANTS', $scope.selected_year.pollutants);
+		// console.log('HEADER POLLUTANTS', $scope.pollutants_header);
+
+		// $scope.selected_year.pollutants.forEach(function(pollutant){
+		// 	console.log('RAW', pollutant.pollutant);
+		// });
+		// for (var i = 0; i < $scope.pollutants_header.length; i++){
+		// 	if (i % 2 == 0) {
+		// 		console.log('MODULUS', $scope.pollutants_header[i]);
+		// 	}
+		// }
 	};
 
 	$scope.addYearDisabled = true;
@@ -182,7 +195,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		return mockPollutants;
 	}
 
-	$scope.pollutants_header = [];
+	
 
 	generatePollutantHeader = function(pollutants){
 		$scope.pollutants_header = [];

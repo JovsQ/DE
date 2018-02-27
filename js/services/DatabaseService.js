@@ -7,7 +7,7 @@ app.service('databaseService', ['$q', function($q){
 
 
 	this.addNewYear = function(year){
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 		var promises = [];
 
 		self.checkYearExist(year)
@@ -17,20 +17,20 @@ app.service('databaseService', ['$q', function($q){
 
 				$q.all(promises)
 				.then(function(promisesResult){
-					deffered.resolve(promisesResult);
+					deferred.resolve(promisesResult);
 				})
 				.catch(function(error){
-					deffered.reject(error);
+					deferred.reject(error);
 				})
 			}
 		});
 		
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.addYearToList = function(year){
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 		var years = {
 			year: year,
 			date_added: (new Date()).toString()
@@ -38,29 +38,29 @@ app.service('databaseService', ['$q', function($q){
 
 		var onComplete = function(error){
 			if (error) {
-				deffered.reject(error.message);
+				deferred.reject(error.message);
 			} else {
 				console.log('ADD YEAR TO LIST');
-				deffered.resolve('year added');
+				deferred.resolve('year added');
 			}
 		}
 
 		self.yearsRef.push(years, onComplete);
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.addYear = function(year){
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 		var years = {
 			name: year
 		}
 
 		var onComplete = function(error){
 			if (error) {
-				deffered.reject(error.message);
+				deferred.reject(error.message);
 			} else {
-				deffered.resolve('year added.');
+				deferred.resolve('year added.');
 			}
 		}
 
@@ -72,12 +72,12 @@ app.service('databaseService', ['$q', function($q){
 			}
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.checkYearExist = function(year){
 		console.log('get year');
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		self.yearsRef.once('value', function(snapshot){
 			var exist = false
@@ -86,14 +86,14 @@ app.service('databaseService', ['$q', function($q){
 					exist = true;
 				}
 			});
-			deffered.resolve(exist);
+			deferred.resolve(exist);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.getAllYears = function(){
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 		var years = [];
 		self.yearsRef.orderByChild('year').once('value', function(snapshot){
 			snapshot.forEach(function(childSnapshot){
@@ -105,15 +105,15 @@ app.service('databaseService', ['$q', function($q){
 				year.pollutants = childSnapshot.val().pollutants;
 				years.push(year);
 			});
-			deffered.resolve(years);
+			deferred.resolve(years);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.checkIfRegionExist = function(yearId, regionName){
 		var ref = firebase.database().ref('years/' + yearId);
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		ref.once('value', function(snapshot){
 			var exist = false;
@@ -128,15 +128,15 @@ app.service('databaseService', ['$q', function($q){
 			}
 			
 
-			deffered.resolve(exist);
+			deferred.resolve(exist);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.addRegion = function(yearId, regionName){
 		var ref = firebase.database().ref('years/' + yearId);
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		ref.once('value', function(snapshot){
 			var year = snapshot.val();
@@ -152,19 +152,19 @@ app.service('databaseService', ['$q', function($q){
 			var updateYear = {};
 			updateYear[snapshot.key] = year;
 			self.yearsRef.update(updateYear, function(){
-				deffered.resolve(year);
+				deferred.resolve(year);
 			});
 
 		}, function(error){
-			deffered.reject(error.message);
+			deferred.reject(error.message);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.checkIfPollutantExist = function(yearId, pollutantName){
 		var ref = firebase.database().ref('years/' + yearId);
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		ref.once('value', function(snapshot){
 			var exist = false;
@@ -178,17 +178,17 @@ app.service('databaseService', ['$q', function($q){
 				});
 			}
 			
-			deffered.resolve(exist);
+			deferred.resolve(exist);
 		}, function(error){
-			deffered.reject(error.message);
+			deferred.reject(error.message);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
 
 	this.addPollutant = function(yearId, pollutantName){
 		var ref = firebase.database().ref('years/' + yearId);
-		var deffered = $q.defer();
+		var deferred = $q.defer();
 
 		ref.once('value', function(snapshot){
 			var year = snapshot.val();
@@ -205,13 +205,52 @@ app.service('databaseService', ['$q', function($q){
 			var updateYear = {};
 			updateYear[snapshot.key] = year;
 			self.yearsRef.update(updateYear, function(){
-				deffered.resolve(year);
+				deferred.resolve(year);
 			});
 		}, function(error){
-			deffered.reject(error.message);
+			deferred.reject(error.message);
 		});
 
-		return deffered.promise;
+		return deferred.promise;
 	};
+
+	this.addEntry = function(yearId, region, source, pollutant, value){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deferred = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var year = snapshot.val();
+
+			var stationReading = source == 'Station' ? value : 0;
+			var mobileReading = source == 'Mobile' ? value : 0;
+			var areaReading = source == 'Area' ? value : 0;
+
+			var reading = {
+				region: region,
+				pollutant: pollutant,
+				source: {
+					stations: stationReading,
+					mobile: mobileReading,
+					area: areaReading
+				},
+				date_added: (new Date()).toString()
+			}
+
+			if (typeof year.readings == 'undefined') {
+				year.readings = [];
+			}
+
+			year.readings.push(reading);
+			var updateYear = {};
+			updateYear[snapshot.key] = year;
+			self.yearsRef.update(updateYear, function(){
+				deferred.resolve(year);
+			});
+		}, function(error){
+			deferred.reject(error.message);
+		});
+
+		return deferred.promise;
+	}
 
 }]);

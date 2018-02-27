@@ -29,7 +29,7 @@ app.directive('onlyDigits', function () {
                 .replace(/[^\d.]/g, '') // accespts only digits
                 .replace(/(^[\d]{7})[\d]/g, '$1')   // not more than 3 digits at the beginning
                 .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
-                .replace(/(\.[\d]{8})./g, '$1');    // not more than 8 digits after decimal
+                .replace(/(\.[\d]{4})./g, '$1');    // not more than 8 digits after decimal
 
             if (digits !== val) {
               ctrl.$setViewValue(digits);

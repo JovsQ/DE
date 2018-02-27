@@ -15,13 +15,19 @@ app.component('addEntryComponent', {
 		};
 
 		$ctrl.ok = function(value){
-
 			var yearId = $ctrl.resolve.year.key;
-			console.log('selected region', $ctrl.selectedRegion);
-			console.log('selected source', $ctrl.selectedSource);
-			console.log('selected pollutant', $ctrl.selectedPollutant);
-			console.log('value', value);
-			console.log('converted value', Number(value));
+			var region = $ctrl.selectedRegion;
+			var source = $ctrl.selectedSource;
+			var pollutant = $ctrl.selectedPollutant;
+			var value = Number(value);
+
+			databaseService.addEntry(yearId, region, source, pollutant, value)
+			.then(function(result){
+				console.log('success', result);
+			})
+			.catch(function(error){
+				console.log('error', error);
+			})
 		};
 
 		$ctrl.regionSelected = function(){
