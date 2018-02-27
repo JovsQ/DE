@@ -1,3 +1,45 @@
+// Add Pollutant modal
+app.component('addPollutantComponent', {
+	templateUrl: 'views/modal-pollutant.html',
+	bindings: {
+		resolve: '<',
+		close: '&',
+		dismiss: '&'
+	},
+	controller: function($scope, databaseService){
+		var $ctrl = this;
+
+		$ctrl.$onInit = function(){
+			console.log('add pollutant modal init');
+		};
+
+		$ctrl.ok = function(pollutantName){
+
+			var yearId = $ctrl.resolve.year.key;
+
+			databaseService.checkIfPollutantExist(yearId, pollutantName)
+			.then(function(result){
+				if (!result) {
+					databaseService.addPollutant(yearId, pollutantName)
+					.then(function(addPollutantResult){
+						$ctrl.close({$value: true});
+					})
+					.catch(function(error){
+						console.log(error);
+					})
+				} else {
+					console.log('pollutant exist');
+				}
+			});
+		};
+
+		$ctrl.cancel = function(){
+			$ctrl.dismiss({$value: 'cancel'});
+		};
+	}
+});
+
+
 // Add Region modal
 app.component('addRegionComponent', {
 	templateUrl: 'views/modal-region.html',

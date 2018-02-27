@@ -12,25 +12,40 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.selected_year;
 
-	$scope.addRegion = function(){
-		if (typeof $scope.selected_year != 'undefined') {
-			var modalInstance = $uibModal.open({
-			  	animation: true,
-			  	component: 'addRegionComponent',
-			  	resolve: {
-			      	year: function(){
-			      		return $scope.selected_year;
-			      	}
-			  	}
-			});
+	$scope.addPollutant = function(){
+		var modalInstance = $uibModal.open({
+		  	animation: true,
+		  	component: 'addPollutantComponent',
+		  	resolve: {
+		      	year: function(){
+		      		return $scope.selected_year;
+		      	}
+		  	}
+		});
 
-			modalInstance.result.then(function(value){
-				console.log('result', value);
-				$scope.init();
-			}, function () {
-			});	
-		}	
-		
+		modalInstance.result.then(function(value){
+			console.log('result', value);
+			$scope.init();
+		}, function () {
+		});	
+	}
+
+	$scope.addRegion = function(){
+		var modalInstance = $uibModal.open({
+		  	animation: true,
+		  	component: 'addRegionComponent',
+		  	resolve: {
+		      	year: function(){
+		      		return $scope.selected_year;
+		      	}
+		  	}
+		});
+
+		modalInstance.result.then(function(value){
+			console.log('result', value);
+			$scope.init();
+		}, function () {
+		});	
 	};
 
 	$scope.addYear = function(){
@@ -54,6 +69,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.addYearDisabled = true;
 
 	$scope.init = function(){
+		console.log('INIT');
 		firebaseSignIn()
 		.then(function(result){
 			// console.log('success callback', result);
@@ -65,6 +81,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				$scope.years = result;
 				if (result.length > 0) {
 					$scope.selected_year = result[0];
+					generatePollutantHeader($scope.selected_year.pollutants);
 				}				
 				$scope.addYearDisabled = false;
 			})
@@ -147,21 +164,28 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		return mockPollutants;
 	}
 
-	var generatePollutantHeader = function(pollutants){
-		var pollutantHeaders = [];
+	$scope.pollutants_header = [];
 
-		for (var i = 0; i < pollutants.length; i++){
-			pollutantHeaders.push(pollutants[i]);
-			pollutantHeaders.push('Regional %');
+	generatePollutantHeader = function(pollutants){
+		$scope.pollutants_header = [];
+
+		if (typeof pollutants != 'undefined') {
+			for (var i = 0; i < pollutants.length; i++){
+				$scope.pollutants_header.push(pollutants[i].pollutant);
+				$scope.pollutants_header.push('Regional %');
+			};
 		}
-
-		return pollutantHeaders;
 	};
 
 	$scope.hasReadings = function(){
-		// return typeof $scope.selected_year != 'undefined' ? $scope.selected_year.regions.length > 0 ? true : false : false;
-		// return typeof $scope.selected_year != 'undefined' ? typeof $scope.selected_year.regions != 'undefined' ? 
-		// $scope.selected_year.regions > 0 ? true : false : false : false;
 		return typeof $scope.selected_year != 'undefined' ? typeof $scope.selected_year.regions != 'undefined' ? $scope.selected_year.regions.length > 0 ? true : false : false : false;
+	};
+
+	$scope.noYearSelected = function(){
+		return typeof $scope.selected_year =='undefined';
+	};
+
+	$scope.noRegionAndPollutant = function(){;
+		return $scope.pollutants_header.length == 0 || $scope.hasReadings == false;
 	};
 }]);

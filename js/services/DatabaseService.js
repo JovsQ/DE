@@ -102,6 +102,7 @@ app.service('databaseService', ['$q', function($q){
 				year.key = childSnapshot.key;
 				year.year = childSnapshot.val().year;
 				year.regions = childSnapshot.val().regions;
+				year.pollutants = childSnapshot.val().pollutants;
 				years.push(year);
 			});
 			deffered.resolve(years);
@@ -118,11 +119,14 @@ app.service('databaseService', ['$q', function($q){
 			var exist = false;
 
 			var regions = snapshot.val().regions;
-			regions.forEach(function(region){
-				if (region.region == regionName) {
-					exist = true;
-				}
-			})
+			if (typeof regions != 'undefined') {
+				regions.forEach(function(region){
+					if (region.region == regionName) {
+						exist = true;
+					}
+				});
+			}
+			
 
 			deffered.resolve(exist);
 		});
@@ -151,6 +155,58 @@ app.service('databaseService', ['$q', function($q){
 				deffered.resolve(year);
 			});
 
+		}, function(error){
+			deffered.reject(error.message);
+		});
+
+		return deffered.promise;
+	};
+
+	this.checkIfPollutantExist = function(yearId, pollutantName){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deffered = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var exist = false;
+
+			var pollutants = snapshot.val().pollutants;
+			if (typeof pollutants != 'undefined') {
+				pollutants.forEach(function(region){
+					if (pollutants.region == pollutantName) {
+						exist = true;
+					}
+				});
+			}
+			
+			deffered.resolve(exist);
+		}, function(error){
+			deffered.reject(error.message);
+		});
+
+		return deffered.promise;
+	};
+
+	this.addPollutant = function(yearId, pollutantName){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deffered = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var year = snapshot.val();
+
+			var pollutant = {
+				pollutant: pollutantName,
+				date_added: (new Date()).toString()
+			}
+			if (typeof year.pollutants == 'undefined') {
+				year.pollutants = [];
+			}
+			year.pollutants.push(pollutant);
+
+			var updateYear = {};
+			updateYear[snapshot.key] = year;
+			self.yearsRef.update(updateYear, function(){
+				deffered.resolve(year);
+			});
 		}, function(error){
 			deffered.reject(error.message);
 		});

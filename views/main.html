@@ -11,11 +11,11 @@
             <div class="row" style="margin: 20px;">
                 <button class="col-lg-2 btn btn-success" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button>
                 
-                <button class="col-lg-2 btn btn-success" ng-click="addRegion()" ng-disabled="addYearDisabled == true">Add Region</button>
+                <button class="col-lg-2 btn btn-success" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button>
 
-                <button class="col-lg-2 btn btn-success" ng-click="addPollutant()" ng-disabled="addYearDisabled == true">Add Pollutant</button>
+                <button class="col-lg-2 btn btn-success" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button>
 
-                <button class="col-lg-2 btn btn-success">Add Entry</button>
+                <button class="col-lg-2 btn btn-success" ng-disabled="noRegionAndPollutant()">Add Entry</button>
                 
             </div>
             <!-- /.col-lg-12 -->
@@ -27,7 +27,7 @@
                                 <tr>
                                     <th>REGION</th>
                                     <th>SOURCE</th>
-                                    <th ng-repeat="pollutant in year.pollutants_header track by $index">{{pollutant}}</th>
+                                    <th ng-repeat="pollutant in pollutants_header track by $index">{{pollutant}}</th>
                                     <th style="color: red">TOTAL</th>
                                     <th style="color: red">Regional %</th>
                                 </tr>
