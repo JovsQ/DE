@@ -12,6 +12,24 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.selected_year;
 
+	$scope.addEntry = function(){
+		var modalInstance = $uibModal.open({
+		  	animation: true,
+		  	component: 'addEntryComponent',
+		  	resolve: {
+		      	year: function(){
+		      		return $scope.selected_year;
+		      	}
+		  	}
+		});
+
+		modalInstance.result.then(function(value){
+			console.log('result', value);
+			$scope.init();
+		}, function () {
+		});	
+	}
+
 	$scope.addPollutant = function(){
 		var modalInstance = $uibModal.open({
 		  	animation: true,

@@ -1,3 +1,40 @@
+// Add Entry modal
+app.component('addEntryComponent', {
+	templateUrl: 'views/modal-entry.html',
+	bindings: {
+		resolve: '<',
+		close: '&',
+		dismiss: '&'
+	},
+	controller: function($scope, databaseService){
+		var $ctrl = this;
+
+		$ctrl.$onInit = function(){
+			console.log('add entry modal init', $ctrl.resolve.year);
+			$ctrl.source = ['Station', 'Mobile', 'Area'];
+		};
+
+		$ctrl.ok = function(value){
+
+			var yearId = $ctrl.resolve.year.key;
+			console.log('selected region', $ctrl.selectedRegion);
+			console.log('selected source', $ctrl.selectedSource);
+			console.log('selected pollutant', $ctrl.selectedPollutant);
+			console.log('value', value);
+			console.log('converted value', Number(value));
+		};
+
+		$ctrl.regionSelected = function(){
+			console.log('current selected region', $ctrl.selectedRegion);
+			return $ctrl.selectedRegion != null;
+		};
+
+		$ctrl.cancel = function(){
+			$ctrl.dismiss({$value: 'cancel'});
+		};
+	}
+});
+
 // Add Pollutant modal
 app.component('addPollutantComponent', {
 	templateUrl: 'views/modal-pollutant.html',

@@ -1,0 +1,46 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="$ctrl.cancel()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Add Entry</h4>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-group">
+      <label class="control-label">Year</label>
+      <input type="text" class="form-control" name="" ng-model="$ctrl.resolve.year.year" ng-disabled="true">
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">Region</label>
+      <select class="form-control" ng-model="$ctrl.selectedRegion" ng-disabled="false">
+        <option value='' selected="true" ng-disabled="true">Select Region</option>
+        <option ng-repeat="region in $ctrl.resolve.year.regions" ng-value="region.region">{{region.region}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">Source</label>
+      <select class="form-control" ng-model="$ctrl.selectedSource" ng-disabled="!$ctrl.selectedRegion">
+        <option value='' selected="true" ng-disabled="true">Select Source</option>
+        <option ng-repeat="source in $ctrl.source" ng-value="source">{{source}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">Pollutant</label>
+      <select class="form-control" ng-model="$ctrl.selectedPollutant" ng-disabled="!$ctrl.selectedSource">
+        <option value='' selected="true" ng-disabled="true">Select Pollutants</option>
+        <option ng-repeat="pollutant in $ctrl.resolve.year.pollutants" ng-value="pollutant.pollutant">{{pollutant.pollutant}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">Value</label>
+      <input type="text" class="form-control" name="" ng-model="$ctrl.value" ng-disabled="!$ctrl.selectedPollutant" only-digits>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok($ctrl.value)">Add</button>
+  </div>
+</div>
