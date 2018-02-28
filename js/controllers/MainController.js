@@ -101,7 +101,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				$scope.years = result;
 				if (result.length > 0) {
 					$scope.selected_year = result[0];
+					console.log('SELECTED YEAR', $scope.selected_year);
 					generatePollutantHeader($scope.selected_year.pollutants);
+					generateReadings($scope.selected_year.regions, $scope.selected_year.pollutants);
 				}				
 				$scope.addYearDisabled = false;
 			})
@@ -184,9 +186,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		return mockPollutants;
 	}
 
-	
-
-	generatePollutantHeader = function(pollutants){
+	var generatePollutantHeader = function(pollutants){
 		$scope.pollutants_header = [];
 
 		if (typeof pollutants != 'undefined') {
@@ -195,6 +195,57 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				$scope.pollutants_header.push('Regional %');
 			};
 		}
+	};
+
+	$scope.readings = [];
+
+	var generateReadings = function(regions, pollutants){
+		$scope.readings = [];
+		console.log('GENERATE READINGS by REGION', regions);
+		regions.forEach(function(regionSnaphot){
+			console.log('---region---', regionSnaphot.region);
+			
+			var region = [];
+			region.region = regionSnaphot.region;
+			region.station = [];
+			region.mobile = [];
+			region.area = [];
+
+			if(regionSnaphot.readings){
+				regionSnaphot.readings.forEach(function(readingSnapshot){
+					readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
+						console.log('pollutant', pollutantSnapShot);
+						if (readingSnapshot.source == 'Station') {
+							region.station.push(pollutantSnapShot);
+						} else if (readingSnapshot.source == 'Mobile') {
+							region.mobile.push(pollutantSnapShot);
+						} else if (readingSnapshot.source == 'Area') {
+							region.area.push(pollutantSnapShot);
+						}
+					});
+				});
+			} else {
+				pollutants.forEach(function(pollutantSnapShot){
+					var pollutant = {
+						pollutant: pollutantSnapShot.pollutant,
+						value: 0
+					}
+
+					region.station.push(pollutant);
+					region.mobile.push(pollutant);
+					region.area.push(pollutant);
+				})
+			}
+
+			$scope.readings.push(region);
+		});
+
+		console.log('---READINGS', $scope.readings);
+		// console.log('HEADERS', pollutants);
+		// pollutants.forEach(function(pollutant){
+		// 	console.log('pollutant', pollutant.pollutant);
+		// });
+
 	};
 
 	$scope.hasReadings = function(){

@@ -9,13 +9,14 @@
             </div>   
 
             <div class="row" style="margin: 20px;">
-                <button class="col-lg-2 btn btn-success" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button>
+
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegionAndPollutant()">Add Entry</button>
                 
-                <button class="col-lg-2 btn btn-success" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button>
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button>
+                
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button>
 
-                <button class="col-lg-2 btn btn-success" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button>
-
-                <button class="col-lg-2 btn btn-success" ng-click="addEntry()" ng-disabled="noRegionAndPollutant()">Add Entry</button>
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button>
                 
             </div>
             <!-- /.col-lg-12 -->
@@ -33,7 +34,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody ng-repeat="region in selected_year.regions">
+                            <tbody ng-repeat="region in readings">
                                 <tr>
                                     <!-- region -->
                                     <td rowspan="3" class="labels">{{region.region}}</td>
@@ -43,8 +44,8 @@
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="station in pollutants_header track by $index">
-                                       <!--  {{station}} -->
+                                    <td ng-repeat="station in region.station track by $index">
+                                       {{station}}
                                     </td>
 
                                     <td></td>
@@ -58,8 +59,8 @@
                                     </td>
 
                                     <!-- pollutants -->
-                                    <td ng-repeat="mobile in pollutants_header track by $index">
-                                        <!-- {{mobile}} -->
+                                    <td ng-repeat="mobile in region.mobile track by $index">
+                                        {{mobile}}
                                     </td>
 
                                     <td></td>
@@ -73,8 +74,8 @@
                                     </td>
                                    
                                     <!-- pollutants -->
-                                    <td ng-repeat="area in pollutants_header track by $index">
-                                        <!-- {{area}} -->
+                                    <td ng-repeat="area in region.area track by $index">
+                                        {{area}}
                                     </td>
 
                                     <td></td>
