@@ -21,9 +21,10 @@ app.component('addEntryComponent', {
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
 
-			databaseService.addEntry(yearId, region, source, pollutant, value)
+			databaseService.addEntryPerRegion(yearId, region, source, pollutant, value)
 			.then(function(result){
 				console.log('success', result);
+				$ctrl.close({$value: result});
 			})
 			.catch(function(error){
 				console.log('error', error);

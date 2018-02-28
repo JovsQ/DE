@@ -25,7 +25,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 
 		modalInstance.result.then(function(value){
-			console.log('result', value);
+			console.log('MAIN CONTROLLER RESULT', value);
 			$scope.init();
 		}, function () {
 		});	
@@ -84,17 +84,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		}, function () {
 		});
 
-		// console.log('RAW POLLUTANTS', $scope.selected_year.pollutants);
-		// console.log('HEADER POLLUTANTS', $scope.pollutants_header);
-
-		// $scope.selected_year.pollutants.forEach(function(pollutant){
-		// 	console.log('RAW', pollutant.pollutant);
-		// });
-		// for (var i = 0; i < $scope.pollutants_header.length; i++){
-		// 	if (i % 2 == 0) {
-		// 		console.log('MODULUS', $scope.pollutants_header[i]);
-		// 	}
-		// }
 	};
 
 	$scope.addYearDisabled = true;

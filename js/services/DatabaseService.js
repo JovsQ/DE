@@ -221,29 +221,42 @@ app.service('databaseService', ['$q', function($q){
 		ref.once('value', function(snapshot){
 			var year = snapshot.val();
 
-			var stationReading = source == 'Station' ? value : 0;
-			var mobileReading = source == 'Mobile' ? value : 0;
-			var areaReading = source == 'Area' ? value : 0;
 
-			var reading = {
-				region: region,
-				pollutant: pollutant,
-				source: {
-					stations: stationReading,
-					mobile: mobileReading,
-					area: areaReading
-				},
-				date_added: (new Date()).toString()
-			}
 
 			if (typeof year.readings == 'undefined') {
 				year.readings = [];
+
+				var stationReading = source == 'Station' ? value : 0;
+				var mobileReading = source == 'Mobile' ? value : 0;
+				var areaReading = source == 'Area' ? value : 0;
+
+				var reading = {
+					region: region,
+					pollutant: pollutant,
+					source: {
+						station: stationReading,
+						mobile: mobileReading,
+						area: areaReading
+					},
+					date_added: (new Date()).toString()
+				}
+
+				year.readings.push(reading);
+			} else {
+				year.readings.forEach(function(reading){
+					if (reading.region == region && reading.pollutant == pollutant) {
+						reading.source.station = source == 'Station' ? value : reading.source.station;
+						reading.source.mobile = source == 'Mobile' ? value : reading.source.mobile;
+						reading.source.area = source == 'Area' ? value : reading.source.area;
+						reading.date_updated =  (new Date()).toString();			
+					}
+				});
 			}
 
-			year.readings.push(reading);
 			var updateYear = {};
 			updateYear[snapshot.key] = year;
 			self.yearsRef.update(updateYear, function(){
+				console.log("UPDATED YEAR", year);
 				deferred.resolve(year);
 			});
 		}, function(error){
@@ -251,6 +264,82 @@ app.service('databaseService', ['$q', function($q){
 		});
 
 		return deferred.promise;
-	}
+	};
+
+	this.addEntryPerRegion = function(yearId, region, source, pollutant, value){
+		var ref = firebase.database().ref('years/' + yearId);
+		var deferred = $q.defer();
+
+		ref.once('value', function(snapshot){
+			var year = snapshot.val();
+
+			year.regions.forEach(function(regionSnapshot){
+				if (regionSnapshot.region == region) {
+
+					if (!regionSnapshot.readings) {
+						regionSnapshot.readings = [];
+
+						var reading = {};
+						reading.source = source;
+
+						reading.pollutants = [];
+						var pollutantObject = {
+							pollutant: pollutant,
+							value: value
+						}
+						reading.pollutants.push(pollutantObject);
+						regionSnapshot.readings.push(reading);	
+					} else {
+						var sourceExist = false;
+						regionSnapshot.readings.forEach(function(readingSnapshot){
+							if (readingSnapshot.source == source) {
+								sourceExist = true;
+								var pollutantExist = false;
+								readingSnapshot.pollutants.forEach(function(pollutantSnapshot){
+									if (pollutantSnapshot.pollutant == pollutant) {
+										pollutantExist = true;
+										pollutantSnapshot.value = value;
+									}
+								});
+
+								if (!pollutantExist) {
+									var pollutantObject = {
+										pollutant: pollutant,
+										value: value
+									}
+
+									readingSnapshot.pollutants.push(pollutantObject);
+								}
+							}
+						});
+
+						if (!sourceExist) {
+							var reading = {};
+							reading.source = source;
+
+							reading.pollutants = [];
+							var pollutantObject = {
+								pollutant: pollutant,
+								value: value
+							}
+							reading.pollutants.push(pollutantObject);
+							regionSnapshot.readings.push(reading);
+						}
+					}
+					
+				}
+			});
+
+			var updateYear = {};
+			updateYear[snapshot.key] = year;
+			self.yearsRef.update(updateYear, function(){
+				deferred.resolve(year);
+			});
+		}, function(error){
+			deferred.reject(error.message);
+		})
+
+		return deferred.promise;
+	};
 
 }]);
