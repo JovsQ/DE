@@ -203,6 +203,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	var generateReadings = function(regions, pollutants){
 		$scope.readings = [];
 		console.log('GENERATE READINGS by REGION', regions);
+		var pollutantsSum = [];
 		if (regions) {
 			regions.forEach(function(regionSnaphot){
 				console.log('---region---', regionSnaphot.region);
@@ -345,6 +346,41 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				$scope.readings.push(region);
 			});
 		}
+
+		var grandTotal = {};
+		grandTotal.region = "GRAND TOTAL";
+		grandTotal.station_values = [];
+		grandTotal.mobile_values = [];
+		grandTotal.area_values = [];
+
+		for (var i = 0; i < $scope.readings.length; i++) {
+			var pollutantsLength = $scope.readings[i].station.length;
+			var reading = $scope.readings[i];
+			for (var x = 0; x < pollutantsLength; x++){
+				if (grandTotal.station_values.length < pollutantsLength) {
+					grandTotal.station_values.push(reading.station[x].value);	
+				} else {
+					grandTotal.station_values[x] += reading.station[x].value;
+				}
+			}
+			for (var x = 0; x < $scope.readings[i].mobile.length; x++){
+				if (grandTotal.mobile_values.length < pollutantsLength) {
+					grandTotal.mobile_values.push(reading.mobile[x].value);	
+				} else {
+					grandTotal.mobile_values[x] += reading.mobile[x].value;
+				}
+			}
+			for (var x = 0; x < $scope.readings[i].area.length; x++){
+				if (grandTotal.area_values.length < pollutantsLength) {
+					grandTotal.area_values.push(reading.area[x].value);	
+				} else {
+					grandTotal.area_values[x] += reading.area[x].value;
+				}
+			}
+		}
+		console.log('STATION VALUES MOCK', grandTotal.station_values);
+
+		$scope.readings.push(grandTotal);
 	};
 
 	$scope.hasReadings = function(){
