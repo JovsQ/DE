@@ -10,7 +10,7 @@
 
             <div class="row" style="margin: 20px;">
 
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegionAndPollutant()">Add Entry</button>
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegion() || noPollutants()">Add Entry</button>
                 
                 <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button>
                 
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table ng-show="hasReadings()" class="table table-striped table-bordered" style="overflow: auto; white-space: nowrap;" >
+                        <table ng-show="noPollutants() == false || noRegion() == false" class="table table-striped table-bordered" style="overflow: auto; white-space: nowrap;" >
                             <thead>
                                 <tr>
                                     <th>REGION</th>
@@ -84,7 +84,7 @@
                             </tbody>
                         </table>
 
-                        <div class="labels" ng-hide="hasReadings()" style="margin-top: 50px;">No Data to display.</div>
+                        <div class="labels" ng-hide="noPollutants() == false || noRegion() == false" style="margin-top: 50px;">No Data to display.</div>
                     </div>
                 </div>
             </div>

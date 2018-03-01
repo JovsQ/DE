@@ -14,6 +14,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.pollutants_header = [];
 
 	$scope.addEntry = function(){
+		console.log('REGION', $scope.selected_year.regions);
 		var modalInstance = $uibModal.open({
 		  	animation: true,
 		  	component: 'addEntryComponent',
@@ -202,93 +203,91 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	var generateReadings = function(regions, pollutants){
 		$scope.readings = [];
 		console.log('GENERATE READINGS by REGION', regions);
-		regions.forEach(function(regionSnaphot){
-			console.log('---region---', regionSnaphot.region);
-			
-			var region = [];
-			region.region = regionSnaphot.region;
-			region.station = [];
-			region.mobile = [];
-			region.area = [];
+		if (regions) {
+			regions.forEach(function(regionSnaphot){
+				console.log('---region---', regionSnaphot.region);
+				
+				var region = [];
+				region.region = regionSnaphot.region;
+				region.station = [];
+				region.mobile = [];
+				region.area = [];
 
-			if(regionSnaphot.readings){
+				if(regionSnaphot.readings){
 
-				regionSnaphot.readings.forEach(function(readingSnapshot){
-					readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
+					pollutants.forEach(function(pollutant){
+						var hasStation = false;
+						var hasMobile = false;
+						var hasArea = false;
 
-						if (readingSnapshot.source == 'Station') {
-							region.station.push(pollutantSnapShot);
-						} else if (readingSnapshot.source == 'Mobile') {
-							region.mobile.push(pollutantSnapShot);
-						} else if (readingSnapshot.source == 'Area') {
-							region.area.push(pollutantSnapShot);
-						}
-					});
-				});
+						var newPollutant = {
+							pollutant: pollutant.pollutant,
+							value: 0
+						};
 
-				pollutants.forEach(function(pollutant){
-					console.log('POLLUTANT', pollutant.pollutant);
-					var hasStation = false;
-					var hasMobile = false;
-					var hasArea = false;
+						regionSnaphot.readings.forEach(function(readingSnapshot){
+							var pollutantExist = false;
 
-					var newPollutant = {
-						pollutant: pollutant.pollutant,
-						value: 0
-					};
+							hasStation = readingSnapshot.source == 'Station' ? true : hasStation;
+							hasMobile = readingSnapshot.source == 'Mobile' ? true : hasMobile;
+							hasArea = readingSnapshot.source == 'Area' ? true : hasArea;
 
-					regionSnaphot.readings.forEach(function(readingSnapshot){
-						var pollutantExist = false;
+							readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
+								if (pollutant.pollutant == pollutantSnapShot.pollutant) {
+									pollutantExist = true;
+									if (readingSnapshot.source == 'Station') {
+										region.station.push(pollutantSnapShot);
+									} else if (readingSnapshot.source == 'Mobile') {
+										region.mobile.push(pollutantSnapShot);
+									} else if (readingSnapshot.source == 'Area') {
+										region.area.push(pollutantSnapShot);
+									}
+								}
+							});
 
-						hasStation = readingSnapshot.source == 'Station' ? true : hasStation;
-						hasMobile = readingSnapshot.source == 'Mobile' ? true : hasMobile;
-						hasArea = readingSnapshot.source == 'Area' ? true : hasArea;
+							if (!pollutantExist) {
 
-						readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
-							if (pollutant.pollutant == pollutantSnapShot.pollutant) {
-								pollutantExist = true;
+								if (readingSnapshot.source == 'Station') {
+									region.station.push(newPollutant);
+								} else if (readingSnapshot.source == 'Mobile') {
+									region.mobile.push(newPollutant);
+								} else if (readingSnapshot.source == 'Area') {
+									region.area.push(newPollutant);
+								}
 							}
 						});
 
-						if (!pollutantExist) {
-
-							if (readingSnapshot.source == 'Station') {
-								region.station.push(newPollutant);
-							} else if (readingSnapshot.source == 'Mobile') {
-								region.mobile.push(newPollutant);
-							} else if (readingSnapshot.source == 'Area') {
-								region.area.push(newPollutant);
-							}
+						if (!hasStation) {
+							region.station.push(newPollutant);
 						}
-						console.log('READING POLLUTANTS', readingSnapshot.pollutants);
+						if (!hasMobile) {
+							region.mobile.push(newPollutant);
+						}
+						if (!hasArea) {
+							region.area.push(newPollutant);
+						}
+
 					});
+				} else {
+					// REGION WITH NO READING
+					if (pollutants) {
+						pollutants.forEach(function(pollutant){
+							var newPollutant = {
+								pollutant: pollutant.pollutant,
+								value: 0
+							}
 
-					if (!hasStation) {
-						region.station.push(newPollutant);
+							region.station.push(newPollutant);
+							region.mobile.push(newPollutant);
+							region.area.push(newPollutant);
+						});	
 					}
-					if (!hasMobile) {
-						region.mobile.push(newPollutant);
-					}
-					if (!hasArea) {
-						region.area.push(newPollutant);
-					}
+				}
 
-				});
-			} else {
-				pollutants.forEach(function(pollutant){
-					var newPollutant = {
-						pollutant: pollutant.pollutant,
-						value: 0
-					}
-
-					region.station.push(newPollutant);
-					region.mobile.push(newPollutant);
-					region.area.push(newPollutant);
-				});
-			}
-
-			$scope.readings.push(region);
-		});
+				$scope.readings.push(region);
+			});
+		}
+		
 
 		console.log('---READINGS', $scope.readings);
 		// console.log('HEADERS', pollutants);
@@ -306,7 +305,23 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		return typeof $scope.selected_year =='undefined';
 	};
 
+	$scope.hasPollutants = function(){
+		return typeof $scope.selected_year.pollutants != 'undefined' && $scope.selected_year.pollutants.length > 0;
+	};
+
+	$scope.hasRegions = function(){
+		return typeof $scope.selected_year.regions != 'undefined' && $scope.selected_year.regions.length > 0;
+	};
+
 	$scope.noRegionAndPollutant = function(){;
 		return $scope.pollutants_header.length == 0 || $scope.hasReadings == false;
+	};
+
+	$scope.noRegion = function(){
+		return typeof $scope.selected_year == 'undefined' || typeof $scope.selected_year.regions == 'undefined';
+	};
+
+	$scope.noPollutants = function(){
+		return typeof $scope.selected_year == 'undefined' || typeof $scope.selected_year.pollutants == 'undefined';
 	};
 }]);
