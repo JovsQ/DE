@@ -349,6 +349,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		var grandTotal = {};
 		grandTotal.region = "GRAND TOTAL";
+		grandTotal.station_raw = [];
+		grandTotal.mobile_raw = [];
+		grandTotal.area_raw = [];
 		grandTotal.station_values = [];
 		grandTotal.mobile_values = [];
 		grandTotal.area_values = [];
@@ -357,27 +360,45 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			var pollutantsLength = $scope.readings[i].station.length;
 			var reading = $scope.readings[i];
 			for (var x = 0; x < pollutantsLength; x++){
-				if (grandTotal.station_values.length < pollutantsLength) {
-					grandTotal.station_values.push(reading.station[x].value);	
+				if (grandTotal.station_raw.length < pollutantsLength) {
+					grandTotal.station_raw.push(reading.station[x].value);	
 				} else {
-					grandTotal.station_values[x] += reading.station[x].value;
+					grandTotal.station_raw[x] += reading.station[x].value;
 				}
 			}
 			for (var x = 0; x < $scope.readings[i].mobile.length; x++){
-				if (grandTotal.mobile_values.length < pollutantsLength) {
-					grandTotal.mobile_values.push(reading.mobile[x].value);	
+				if (grandTotal.mobile_raw.length < pollutantsLength) {
+					grandTotal.mobile_raw.push(reading.mobile[x].value);	
 				} else {
-					grandTotal.mobile_values[x] += reading.mobile[x].value;
+					grandTotal.mobile_raw[x] += reading.mobile[x].value;
 				}
 			}
 			for (var x = 0; x < $scope.readings[i].area.length; x++){
-				if (grandTotal.area_values.length < pollutantsLength) {
-					grandTotal.area_values.push(reading.area[x].value);	
+				if (grandTotal.area_raw.length < pollutantsLength) {
+					grandTotal.area_raw.push(reading.area[x].value);	
 				} else {
-					grandTotal.area_values[x] += reading.area[x].value;
+					grandTotal.area_raw[x] += reading.area[x].value;
 				}
 			}
 		}
+
+		var pollutantsLength = grandTotal.area_raw.length;
+		for (var i = 0; i < pollutantsLength; i++) {
+			grandTotal.station_values.push(+grandTotal.station_raw[i]);
+			grandTotal.mobile_values.push(+grandTotal.mobile_raw[i]);
+			grandTotal.area_values.push(+grandTotal.area_raw[i]);
+
+			var sum = grandTotal.station_raw[i] + grandTotal.mobile_raw[i] + grandTotal.area_raw[i];
+
+			var stationAverage = sum == 0 ? 0 : grandTotal.station_raw[i] / sum * 100;
+			var mobileAverage = sum == 0 ? 0 : grandTotal.mobile_raw[i] / sum * 100;
+			var areaAverage = sum == 0 ? 0 : grandTotal.area_raw[i] / sum * 100;
+
+			grandTotal.station_values.push(stationAverage.toFixed(4) + "%");
+			grandTotal.mobile_values.push(mobileAverage.toFixed(4) + "%");
+			grandTotal.area_values.push(areaAverage.toFixed(4) + "%");
+		}
+
 		console.log('STATION VALUES MOCK', grandTotal.station_values);
 
 		$scope.readings.push(grandTotal);
