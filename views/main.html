@@ -39,7 +39,7 @@
                                     <!-- region -->
                                     <td rowspan="3" class="labels">{{region.region}}</td>
                                     <!-- stationary -->
-                                    <td class="labels">
+                                    <td class="labels" style="color: red">
                                         Stationary
                                     </td>
                                     
@@ -47,14 +47,11 @@
                                     <td ng-repeat="station in region.station_values track by $index">
                                        {{station}}
                                     </td>
-
-                                    <td></td>
-                                    <td></td>
                                 </tr>
 
                                 <tr>
                                     <!-- stationary -->
-                                    <td class="labels">
+                                    <td class="labels" style="color: red">
                                         Mobile
                                     </td>
 
@@ -62,14 +59,11 @@
                                     <td ng-repeat="mobile in region.mobile_values track by $index">
                                         {{mobile}}
                                     </td>
-
-                                    <td></td>
-                                    <td></td>
                                 </tr>
 
                                 <tr>
                                     <!-- area -->
-                                    <td class="labels">
+                                    <td class="labels" style="color: red">
                                         Area
                                     </td>
                                    
@@ -77,9 +71,6 @@
                                     <td ng-repeat="area in region.area_values track by $index">
                                         {{area}}
                                     </td>
-
-                                    <td></td>
-                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

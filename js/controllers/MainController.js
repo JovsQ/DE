@@ -289,10 +289,18 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				region.mobile_values = [];
 				region.area_values = [];
 
+				var station_raw = 0;
+				var mobile_raw = 0;
+				var area_raw = 0;
+
 				for (var i = 0; i < pollutants.length; i++){
 					var stationValue = region.station[i].value;
 					var mobileValue = region.mobile[i].value;
 					var areaValue = region.area[i].value;
+
+					station_raw += stationValue;
+					mobile_raw += mobileValue;
+					area_raw += areaValue;
 
 					//VALUE
 					region.station_values.push(stationValue);
@@ -301,9 +309,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 					//PERCENTAGE
 					var sum = stationValue + mobileValue + areaValue;
-					var stationAverage = sum == 0 ? 0 : stationValue / (sum) * 100;
-					var mobileAverage = sum == 0 ? 0 : mobileValue / (sum) * 100;
-					var areaAverage = sum == 0 ? 0 : areaValue / (sum) * 100;
+					var stationAverage = sum == 0 ? 0 : stationValue / sum * 100;
+					var mobileAverage = sum == 0 ? 0 : mobileValue / sum * 100;
+					var areaAverage = sum == 0 ? 0 : areaValue / sum * 100;
 
 					stationAverage = stationAverage.toFixed(4);
 					mobileAverage = mobileAverage.toFixed(4);
@@ -314,6 +322,22 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					region.area_values.push(areaAverage + '%');
 				}
 
+				//TOTAL
+				var sum = station_raw + mobile_raw + area_raw;
+				var stationAverage = sum == 0 ? 0 : station_raw / sum * 100;
+				var mobileAverage = sum == 0 ? 0 : mobile_raw / sum * 100;
+				var areaAverage = sum == 0 ? 0 : area_raw / sum * 100;
+
+				stationAverage = stationAverage.toFixed(4);
+				mobileAverage = mobileAverage.toFixed(4);
+				areaAverage = areaAverage.toFixed(4);
+
+				region.station_values.push(station_raw);
+				region.station_values.push(stationAverage + '%');
+				region.mobile_values.push(mobile_raw);
+				region.mobile_values.push(mobileAverage + '%');
+				region.area_values.push(area_raw);
+				region.area_values.push(areaAverage + '%');
 				//COMPUTE BEFORE PUSH
 				$scope.readings.push(region);
 			});
