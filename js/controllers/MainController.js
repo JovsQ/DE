@@ -212,9 +212,10 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			region.area = [];
 
 			if(regionSnaphot.readings){
+
 				regionSnaphot.readings.forEach(function(readingSnapshot){
 					readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
-						console.log('pollutant', pollutantSnapShot);
+
 						if (readingSnapshot.source == 'Station') {
 							region.station.push(pollutantSnapShot);
 						} else if (readingSnapshot.source == 'Mobile') {
@@ -224,17 +225,66 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 						}
 					});
 				});
+
+				pollutants.forEach(function(pollutant){
+					console.log('POLLUTANT', pollutant.pollutant);
+					var hasStation = false;
+					var hasMobile = false;
+					var hasArea = false;
+
+					var newPollutant = {
+						pollutant: pollutant.pollutant,
+						value: 0
+					};
+
+					regionSnaphot.readings.forEach(function(readingSnapshot){
+						var pollutantExist = false;
+
+						hasStation = readingSnapshot.source == 'Station' ? true : hasStation;
+						hasMobile = readingSnapshot.source == 'Mobile' ? true : hasMobile;
+						hasArea = readingSnapshot.source == 'Area' ? true : hasArea;
+
+						readingSnapshot.pollutants.forEach(function(pollutantSnapShot){
+							if (pollutant.pollutant == pollutantSnapShot.pollutant) {
+								pollutantExist = true;
+							}
+						});
+
+						if (!pollutantExist) {
+
+							if (readingSnapshot.source == 'Station') {
+								region.station.push(newPollutant);
+							} else if (readingSnapshot.source == 'Mobile') {
+								region.mobile.push(newPollutant);
+							} else if (readingSnapshot.source == 'Area') {
+								region.area.push(newPollutant);
+							}
+						}
+						console.log('READING POLLUTANTS', readingSnapshot.pollutants);
+					});
+
+					if (!hasStation) {
+						region.station.push(newPollutant);
+					}
+					if (!hasMobile) {
+						region.mobile.push(newPollutant);
+					}
+					if (!hasArea) {
+						region.area.push(newPollutant);
+					}
+
+				});
 			} else {
-				pollutants.forEach(function(pollutantSnapShot){
-					var pollutant = {
-						pollutant: pollutantSnapShot.pollutant,
+				pollutants.forEach(function(pollutant){
+					var newPollutant = {
+						pollutant: pollutant.pollutant,
 						value: 0
 					}
 
-					region.station.push(pollutant);
-					region.mobile.push(pollutant);
-					region.area.push(pollutant);
-				})
+					region.station.push(newPollutant);
+					region.mobile.push(newPollutant);
+					region.area.push(newPollutant);
+				});
 			}
 
 			$scope.readings.push(region);
