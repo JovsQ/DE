@@ -324,9 +324,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					var mobileAverage = sum == 0 ? 0 : mobileValue / sum * 100;
 					var areaAverage = sum == 0 ? 0 : areaValue / sum * 100;
 
-					stationAverage = stationAverage.toFixed(4);
-					mobileAverage = mobileAverage.toFixed(4);
-					areaAverage = areaAverage.toFixed(4);
+					stationAverage = +stationAverage.toFixed(4);
+					mobileAverage = +mobileAverage.toFixed(4);
+					areaAverage = +areaAverage.toFixed(4);
 
 					region.station_values.push(stationAverage + '%');
 					region.mobile_values.push(mobileAverage + '%');
@@ -340,11 +340,11 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				var areaAverage = sum == 0 ? 0 : area_raw / sum * 100;
 
 				station_raw = +station_raw.toFixed(4);
-				stationAverage = stationAverage.toFixed(4);
+				stationAverage = +stationAverage.toFixed(4);
 				mobile_raw = +mobile_raw.toFixed(4);
-				mobileAverage = mobileAverage.toFixed(4);
+				mobileAverage = +mobileAverage.toFixed(4);
 				area_raw = +area_raw.toFixed(4);
-				areaAverage = areaAverage.toFixed(4);
+				areaAverage = +areaAverage.toFixed(4);
 
 				region.station_values.push(station_raw);
 				region.station_values.push(stationAverage + '%');
@@ -404,9 +404,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			var mobileAverage = sum == 0 ? 0 : grandTotal.mobile_raw[i] / sum * 100;
 			var areaAverage = sum == 0 ? 0 : grandTotal.area_raw[i] / sum * 100;
 
-			grandTotal.station_values.push(stationAverage.toFixed(4) + "%");
-			grandTotal.mobile_values.push(mobileAverage.toFixed(4) + "%");
-			grandTotal.area_values.push(areaAverage.toFixed(4) + "%");
+			grandTotal.station_values.push(+stationAverage.toFixed(4) + "%");
+			grandTotal.mobile_values.push(+mobileAverage.toFixed(4) + "%");
+			grandTotal.area_values.push(+areaAverage.toFixed(4) + "%");
 		}
 
 		var stationSum  = 0;
