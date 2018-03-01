@@ -8,6 +8,11 @@
             </div>   
 
             <div class="row" style="margin: 20px;">
+                <div class="form-group col-lg-2">
+                    <select class="form-control" ng-model="current_year" ng-change="init()">
+                        <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
+                    </select>
+                </div>
 
                 <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegion() || noPollutants()">Add Entry</button>
                 

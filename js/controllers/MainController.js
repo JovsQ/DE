@@ -12,6 +12,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.selected_year;
 	$scope.pollutants_header = [];
+	$scope.current_year;
 
 	$scope.addEntry = function(){
 		console.log('REGION', $scope.selected_year.regions);
@@ -101,7 +102,16 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			.then(function(result){
 				$scope.years = result;
 				if (result.length > 0) {
-					$scope.selected_year = result[0];
+					if ($scope.current_year) {
+						$scope.years.forEach(function(yearSnapshot){
+							if (yearSnapshot.year == $scope.current_year) {
+								$scope.selected_year = yearSnapshot;
+							}
+						});
+					} else {
+						$scope.selected_year = result[0];
+						$scope.current_year = $scope.selected_year.year;	
+					}					
 					console.log('SELECTED YEAR', $scope.selected_year);
 					generatePollutantHeader($scope.selected_year.pollutants);
 					generateReadings($scope.selected_year.regions, $scope.selected_year.pollutants);
