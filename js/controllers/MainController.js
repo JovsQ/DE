@@ -399,7 +399,28 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			grandTotal.area_values.push(areaAverage.toFixed(4) + "%");
 		}
 
-		console.log('STATION VALUES MOCK', grandTotal.station_values);
+		var stationSum  = 0;
+		var mobileSum = 0;
+		var areaSum = 0;
+		for (var i = 0; i < pollutantsLength; i++) {
+			stationSum += grandTotal.station_raw[i];
+			mobileSum += grandTotal.mobile_raw[i];
+			areaSum += grandTotal.area_raw[i];
+		}
+
+		grandTotal.station_values.push(+stationSum.toFixed(4));
+		grandTotal.mobile_values.push(+mobileSum.toFixed(4));
+		grandTotal.area_values.push(+areaSum.toFixed(4));
+
+		var sum = stationSum + mobileSum + areaSum;
+		var stationAverage = sum == 0 ? 0 : stationSum / sum * 100;
+		var mobileAverage = sum == 0 ? 0 : mobileSum / sum * 100;
+		var areaAverage = sum == 0 ? 0 : areaSum / sum * 100;
+
+		grandTotal.station_values.push(+stationAverage.toFixed(4) + "%");
+		grandTotal.mobile_values.push(+mobileAverage.toFixed(4) + "%");
+		grandTotal.area_values.push(+areaAverage.toFixed(4) + "%");
+
 
 		$scope.readings.push(grandTotal);
 	};
