@@ -284,17 +284,40 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					}
 				}
 
+				console.log('REGION', region);
+				region.station_values = [];
+				region.mobile_values = [];
+				region.area_values = [];
+
+				for (var i = 0; i < pollutants.length; i++){
+					var stationValue = region.station[i].value;
+					var mobileValue = region.mobile[i].value;
+					var areaValue = region.area[i].value;
+
+					//VALUE
+					region.station_values.push(stationValue);
+					region.mobile_values.push(mobileValue);
+					region.area_values.push(areaValue);
+
+					//PERCENTAGE
+					var sum = stationValue + mobileValue + areaValue;
+					var stationAverage = sum == 0 ? 0 : stationValue / (sum) * 100;
+					var mobileAverage = sum == 0 ? 0 : mobileValue / (sum) * 100;
+					var areaAverage = sum == 0 ? 0 : areaValue / (sum) * 100;
+
+					stationAverage = stationAverage.toFixed(4);
+					mobileAverage = mobileAverage.toFixed(4);
+					areaAverage = areaAverage.toFixed(4);
+
+					region.station_values.push(stationAverage + '%');
+					region.mobile_values.push(mobileAverage + '%');
+					region.area_values.push(areaAverage + '%');
+				}
+
+				//COMPUTE BEFORE PUSH
 				$scope.readings.push(region);
 			});
 		}
-		
-
-		console.log('---READINGS', $scope.readings);
-		// console.log('HEADERS', pollutants);
-		// pollutants.forEach(function(pollutant){
-		// 	console.log('pollutant', pollutant.pollutant);
-		// });
-
 	};
 
 	$scope.hasReadings = function(){

@@ -40,11 +40,11 @@
                                     <td rowspan="3" class="labels">{{region.region}}</td>
                                     <!-- stationary -->
                                     <td class="labels">
-                                        Station
+                                        Stationary
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="station in region.station track by $index">
+                                    <td ng-repeat="station in region.station_values track by $index">
                                        {{station}}
                                     </td>
 
@@ -59,7 +59,7 @@
                                     </td>
 
                                     <!-- pollutants -->
-                                    <td ng-repeat="mobile in region.mobile track by $index">
+                                    <td ng-repeat="mobile in region.mobile_values track by $index">
                                         {{mobile}}
                                     </td>
 
@@ -74,7 +74,7 @@
                                     </td>
                                    
                                     <!-- pollutants -->
-                                    <td ng-repeat="area in region.area track by $index">
+                                    <td ng-repeat="area in region.area_values track by $index">
                                         {{area}}
                                     </td>
 
