@@ -328,8 +328,11 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				var mobileAverage = sum == 0 ? 0 : mobile_raw / sum * 100;
 				var areaAverage = sum == 0 ? 0 : area_raw / sum * 100;
 
+				station_raw = +station_raw.toFixed(4);
 				stationAverage = stationAverage.toFixed(4);
+				mobile_raw = +mobile_raw.toFixed(4);
 				mobileAverage = mobileAverage.toFixed(4);
+				area_raw = +area_raw.toFixed(4);
 				areaAverage = areaAverage.toFixed(4);
 
 				region.station_values.push(station_raw);
