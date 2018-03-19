@@ -4,7 +4,7 @@ app.service('databaseService', ['$q', function($q){
 	this.yearsRef = firebase.database().ref('years/');
 	this.regionsRef = firebase.database().ref('regions/');
 	this.pollutantsRef = firebase.database().ref('pollutants/');
-
+	this.compilationseRef = firebase.database().ref('compilations/');
 
 	this.addNewYear = function(year){
 		var deferred = $q.defer();
@@ -22,6 +22,8 @@ app.service('databaseService', ['$q', function($q){
 				.catch(function(error){
 					deferred.reject(error);
 				})
+			} else{
+
 			}
 		});
 		
@@ -40,7 +42,6 @@ app.service('databaseService', ['$q', function($q){
 			if (error) {
 				deferred.reject(error.message);
 			} else {
-				console.log('ADD YEAR TO LIST');
 				deferred.resolve('year added');
 			}
 		}
@@ -128,6 +129,48 @@ app.service('databaseService', ['$q', function($q){
 			}
 			
 
+			deferred.resolve(exist);
+		});
+
+		return deferred.promise;
+	};
+
+	this.addNewRegion = function(regionName){
+		var deferred = $q.defer();
+		var region = {
+			name: regionName
+		}
+
+		var onComplete = function(error){
+			if (error) {
+				deferred.reject(error.message);
+			} else {
+				deferred.resolve('region added.');
+			}
+		}
+
+		self.checkRegionExist(regionName)
+		.then(function(result){
+			if (!result) {
+				self.regionsRef.push(region, onComplete);
+			}
+		});
+
+		return deferred.promise;
+			
+		return deferred.promise;
+	};
+
+	this.checkRegionExist = function(reionName){
+		var deferred = $q.defer();
+
+		self.regionsRef.once('value', function(snapshot){
+			var exist = false
+			snapshot.forEach(function(childSnapshot){
+				if (childSnapshot.val().name == reionName) {
+					exist = true;
+				}
+			});
 			deferred.resolve(exist);
 		});
 

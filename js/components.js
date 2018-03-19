@@ -101,23 +101,28 @@ app.component('addRegionComponent', {
 
 		$ctrl.ok = function(regionName){
 
-			var yearId = $ctrl.resolve.year.key;
+		databaseService.addNewRegion(regionName)
+		.then(function(result){
+			$ctrl.close({$value: true});
+		})
+		.catch(function(error){
+			console.log(error);
+		})
 
-
-			databaseService.checkIfRegionExist(yearId, regionName)
-			.then(function(result){
-				if (!result) {
-					databaseService.addRegion(yearId, regionName)
-					.then(function(addRegionResult){
-						$ctrl.close({$value: true});
-					})
-					.catch(function(error){
-						console.log(error);
-					})
-				} else {
-					console.log('region exist');
-				}
-			});
+			// databaseService.checkIfRegionExist(yearId, regionName)
+			// .then(function(result){
+			// 	if (!result) {
+			// 		databaseService.addNewRegion(regionName)
+			// 		.then(function(addRegionResult){
+			// 			$ctrl.close({$value: true});
+			// 		})
+			// 		.catch(function(error){
+			// 			console.log(error);
+			// 		})
+			// 	} else {
+			// 		console.log('region exist');
+			// 	}
+			// });
 		};
 
 		$ctrl.cancel = function(){
