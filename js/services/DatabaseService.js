@@ -135,10 +135,52 @@ app.service('databaseService', ['$q', function($q){
 		return deferred.promise;
 	};
 
+	this.addNewPollutant = function(pollutantName){
+		var deferred = $q.defer();
+		var pollutant = {
+			name: pollutantName,
+			date_added: (new Date()).toString()
+		}
+
+		var onComplete = function(error){
+			if (error) {
+				deferred.reject(error.message);
+			} else {
+				deferred.resolve('pollutant added.');
+			}
+		}
+
+		self.checkPollutantExist(pollutantName)
+		.then(function(result){
+			if (!result) {
+				self.pollutantsRef.push(pollutant, onComplete);
+			}
+		});
+			
+		return deferred.promise;
+	};
+
+	this.checkPollutantExist = function(pollutantName){
+		var deferred = $q.defer();
+
+		self.pollutantsRef.once('value', function(snapshot){
+			var exist = false
+			snapshot.forEach(function(childSnapshot){
+				if (childSnapshot.val().name == pollutantName) {
+					exist = true;
+				}
+			});
+			deferred.resolve(exist);
+		});
+
+		return deferred.promise;
+	};
+
 	this.addNewRegion = function(regionName){
 		var deferred = $q.defer();
 		var region = {
-			name: regionName
+			name: regionName,
+			date_added: (new Date()).toString()
 		}
 
 		var onComplete = function(error){
@@ -155,19 +197,17 @@ app.service('databaseService', ['$q', function($q){
 				self.regionsRef.push(region, onComplete);
 			}
 		});
-
-		return deferred.promise;
 			
 		return deferred.promise;
 	};
 
-	this.checkRegionExist = function(reionName){
+	this.checkRegionExist = function(regionName){
 		var deferred = $q.defer();
 
 		self.regionsRef.once('value', function(snapshot){
 			var exist = false
 			snapshot.forEach(function(childSnapshot){
-				if (childSnapshot.val().name == reionName) {
+				if (childSnapshot.val().name == regionName) {
 					exist = true;
 				}
 			});

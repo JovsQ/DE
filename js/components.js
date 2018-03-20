@@ -59,22 +59,30 @@ app.component('addPollutantComponent', {
 
 		$ctrl.ok = function(pollutantName){
 
-			var yearId = $ctrl.resolve.year.key;
-
-			databaseService.checkIfPollutantExist(yearId, pollutantName)
+			databaseService.addNewPollutant(pollutantName)
 			.then(function(result){
-				if (!result) {
-					databaseService.addPollutant(yearId, pollutantName)
-					.then(function(addPollutantResult){
-						$ctrl.close({$value: true});
-					})
-					.catch(function(error){
-						console.log(error);
-					})
-				} else {
-					console.log('pollutant exist');
-				}
-			});
+				$ctrl.close({$value: true});
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+
+			// var yearId = $ctrl.resolve.year.key;
+
+			// databaseService.checkIfPollutantExist(yearId, pollutantName)
+			// .then(function(result){
+			// 	if (!result) {
+			// 		databaseService.addPollutant(yearId, pollutantName)
+			// 		.then(function(addPollutantResult){
+			// 			$ctrl.close({$value: true});
+			// 		})
+			// 		.catch(function(error){
+			// 			console.log(error);
+			// 		})
+			// 	} else {
+			// 		console.log('pollutant exist');
+			// 	}
+			// });
 		};
 
 		$ctrl.cancel = function(){
@@ -101,28 +109,13 @@ app.component('addRegionComponent', {
 
 		$ctrl.ok = function(regionName){
 
-		databaseService.addNewRegion(regionName)
-		.then(function(result){
-			$ctrl.close({$value: true});
-		})
-		.catch(function(error){
-			console.log(error);
-		})
-
-			// databaseService.checkIfRegionExist(yearId, regionName)
-			// .then(function(result){
-			// 	if (!result) {
-			// 		databaseService.addNewRegion(regionName)
-			// 		.then(function(addRegionResult){
-			// 			$ctrl.close({$value: true});
-			// 		})
-			// 		.catch(function(error){
-			// 			console.log(error);
-			// 		})
-			// 	} else {
-			// 		console.log('region exist');
-			// 	}
-			// });
+			databaseService.addNewRegion(regionName)
+			.then(function(result){
+				$ctrl.close({$value: true});
+			})
+			.catch(function(error){
+				console.log(error);
+			})
 		};
 
 		$ctrl.cancel = function(){
