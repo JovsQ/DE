@@ -115,9 +115,14 @@ app.service('databaseService', ['$q', function($q){
 
 	this.getAllPollutants = function(){
 		var deferred = $q.defer();
-
+		var pollutants = [];
 		self.pollutantsRef.orderByChild('pollutant').once('value', function(snapshot){
-			deferred.resolve(snapshot.val());
+			
+			snapshot.forEach(function(childSnapshot){
+				pollutants.push(childSnapshot.val());
+			});
+
+			deferred.resolve(pollutants);
 		});
 
 		return deferred.promise;

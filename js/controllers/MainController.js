@@ -2,7 +2,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.years = [];
 	$scope.regions = [];
-	$scope.pollutants = {};
+	$scope.pollutants = [];
 	var pollutants = ["PM","CO","SOX","NOX","VOC"];
 	// var pollutants = [];
 	var regions = ["Region 1","Region 2","Region 3","NCR","Region 4a","Region 4b","CAR"];
@@ -91,6 +91,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.addYearDisabled = true;
 
 	$scope.fetchReadings = function(){
+		var promises = [];
+
 		firebaseSignIn()
 		.then(function(result){
 			//get years
@@ -110,8 +112,21 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			.then(function(pollutants){
 				console.log('pollutants', pollutants);
 				$scope.pollutants = pollutants;
+				generateHeaders(pollutants);
 			});
 		});
+	};
+
+	// var initReadings = function(){
+	// 	// generateHeaders();
+	// };
+
+	var generateHeaders = function(pollutants){
+		$scope.pollutants_header = [];
+		pollutants.forEach(function(pollutantSnapShot){
+			$scope.pollutants_header.push(pollutantSnapShot.pollutant);
+			$scope.pollutants_header.push('Regional %');
+		})
 	};
 
 	$scope.init = function(){
