@@ -95,9 +95,14 @@ app.service('databaseService', ['$q', function($q){
 
 	this.getAllYears = function(){
 		var deferred = $q.defer();
-
+		var years = [];
 		self.yearsRef.orderByChild('year').once('value', function(snapshot){
-			deferred.resolve(snapshot.val());
+		
+			snapshot.forEach(function(childSnapshot){
+				years.push(childSnapshot.val());
+			});
+
+			deferred.resolve(years);
 		});
 
 		return deferred.promise;
@@ -105,9 +110,14 @@ app.service('databaseService', ['$q', function($q){
 
 	this.getAllRegions = function(){
 		var deferred = $q.defer();
-
+		var regions = [];
 		self.regionsRef.orderByChild('region').once('value', function(snapshot){
-			deferred.resolve(snapshot.val());
+		
+			snapshot.forEach(function(childSnapshot){
+				regions.push(childSnapshot.val());
+			});
+
+			deferred.resolve(regions);
 		});
 
 		return deferred.promise;
