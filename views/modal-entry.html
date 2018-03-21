@@ -14,7 +14,7 @@
       <label class="control-label">Region</label>
       <select class="form-control" ng-model="$ctrl.selectedRegion" ng-disabled="false">
         <option value='' selected="true" ng-disabled="true">Select Region</option>
-        <option ng-repeat="region in $ctrl.resolve.year.regions" ng-value="region.region">{{region.region}}</option>
+        <option ng-repeat="region in $ctrl.resolve.regions" ng-value="region.region">{{region.region}}</option>
       </select>
     </div>
 
@@ -22,7 +22,7 @@
       <label class="control-label">Pollutant</label>
       <select class="form-control" ng-model="$ctrl.selectedPollutant" ng-disabled="!$ctrl.selectedRegion">
         <option value='' selected="true" ng-disabled="true">Select Pollutants</option>
-        <option ng-repeat="pollutant in $ctrl.resolve.year.pollutants" ng-value="pollutant.pollutant">{{pollutant.pollutant}}</option>
+        <option ng-repeat="pollutant in $ctrl.resolve.pollutants" ng-value="pollutant.pollutant">{{pollutant.pollutant}}</option>
       </select>
     </div>
 

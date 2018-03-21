@@ -15,13 +15,19 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.current_year;
 
 	$scope.addEntry = function(){
-		console.log('REGION', $scope.selected_year.regions);
+		console.log('current year', $scope.current_year);
 		var modalInstance = $uibModal.open({
 		  	animation: true,
 		  	component: 'addEntryComponent',
 		  	resolve: {
 		      	year: function(){
-		      		return $scope.selected_year;
+		      		return $scope.current_year
+		      	},
+		      	regions: function(){
+		      		return $scope.regions
+		      	},
+		      	pollutants: function(){
+		      		return $scope.pollutants
 		      	}
 		  	}
 		});
@@ -105,7 +111,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					if (!$scope.current_year) {
 						$scope.current_year = $scope.years[0];
 					} else {
-						
+
 					}
 				}
 			});

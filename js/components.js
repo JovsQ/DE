@@ -15,20 +15,28 @@ app.component('addEntryComponent', {
 		};
 
 		$ctrl.ok = function(value){
-			var yearId = $ctrl.resolve.year.key;
+			var year = $ctrl.resolve.year.year;
 			var region = $ctrl.selectedRegion;
 			var source = $ctrl.selectedSource;
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
 
-			databaseService.addEntryPerRegion(yearId, region, source, pollutant, value)
-			.then(function(result){
-				console.log('success', result);
-				$ctrl.close({$value: result});
-			})
-			.catch(function(error){
-				console.log('error', error);
-			})
+			console.log('year', year);
+			console.log('region', region);
+			console.log('source', source);
+			console.log('pollutant', pollutant);
+			console.log('value', value);
+
+			// TODO new saving of entry
+
+			// databaseService.addEntryPerRegion(yearId, region, source, pollutant, value)
+			// .then(function(result){
+			// 	console.log('success', result);
+			// 	$ctrl.close({$value: result});
+			// })
+			// .catch(function(error){
+			// 	console.log('error', error);
+			// })
 		};
 
 		$ctrl.regionSelected = function(){
