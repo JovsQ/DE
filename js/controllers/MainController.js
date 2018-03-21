@@ -90,52 +90,59 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.addYearDisabled = true;
 
-	$scope.init = function(){
-		console.log('INIT');
+	$scope.fetchReadings = function(){
 		firebaseSignIn()
 		.then(function(result){
-			// console.log('success callback', result);
-			// mockValues();
-			// console.log('firebase auth', firebase.auth().currentUser);
-
+			//get years
 			databaseService.getAllYears()
-			.then(function(result){
-				$scope.years = result;
-				if (result.length > 0) {
-					if ($scope.current_year) {
-						$scope.years.forEach(function(yearSnapshot){
-							if (yearSnapshot.year == $scope.current_year) {
-								$scope.selected_year = yearSnapshot;
-							}
-						});
-					} else {
-						$scope.selected_year = result[0];
-						$scope.current_year = $scope.selected_year.year;	
-					}					
-					console.log('SELECTED YEAR', $scope.selected_year);
-					generatePollutantHeader($scope.selected_year.pollutants);
-					generateReadings($scope.selected_year.regions, $scope.selected_year.pollutants);
-				}				
-				$scope.addYearDisabled = false;
-			})
-			.catch(function(error){
-				console.log('error', error);
+			.then(function(years){
+				console.log('years', years);
+				$scope.years = years;
 			});
-		})
-		.catch(function(error){
-			// console.log('error callback', error)
+
+			databaseService.getAllRegions()
+			.then(function(regions){
+				console.log('regions', regions);
+				$scope.regions = regions;
+			});
+
+			databaseService.getAllPollutants()
+			.then(function(pollutants){
+				console.log('pollutants', pollutants);
+				$scope.pollutants = pollutants;
+			});
 		});
-		// mockValues();
 	};
 
-	//mock
-	var mockEmissionYear = function() {
+	$scope.init = function(){
+		// firebaseSignIn()
+		// .then(function(result){
 
-		databaseService.getAllYears()
-		.then(function(result){
-			console.log('result', result);
-		});
-	}
+		// 	databaseService.getAllYears()
+		// 	.then(function(result){
+		// 		$scope.years = result;
+		// 		if (result.length > 0) {
+		// 			if ($scope.current_year) {
+		// 				$scope.years.forEach(function(yearSnapshot){
+		// 					if (yearSnapshot.year == $scope.current_year) {
+		// 						$scope.selected_year = yearSnapshot;
+		// 					}
+		// 				});
+		// 			} else {
+		// 				$scope.selected_year = result[0];
+		// 				$scope.current_year = $scope.selected_year.year;	
+		// 			}					
+		// 			console.log('SELECTED YEAR', $scope.selected_year);
+		// 			generatePollutantHeader($scope.selected_year.pollutants);
+		// 			generateReadings($scope.selected_year.regions, $scope.selected_year.pollutants);
+		// 		}				
+		// 		$scope.addYearDisabled = false;
+		// 	})
+		// 	.catch(function(error){
+		// 		console.log('error', error);
+		// 	});
+		// });
+	};
 
 	var firebaseSignIn = function(){
 		var deffered = $q.defer();

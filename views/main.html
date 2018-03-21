@@ -1,4 +1,4 @@
-<div id="wrapper" ng-init="init()">
+<div id="wrapper" ng-init="fetchReadings()">
 
     <div id="page-wrapper">
         <div class="row">
@@ -14,13 +14,17 @@
                     </select>
                 </div>
 
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegion() || noPollutants()">Add Entry</button>
+                <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegion() || noPollutants()">Add Reading</button> -->
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()">Add Reading</button>
                 
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button>
-                
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button>
+                <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button> -->
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()">Add Pollutant</button>
 
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button>
+               <!--  <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button> -->
+               <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()">Add Region</button>
+
+                <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button> -->
+                <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()">Add Year</button>
                 
             </div>
             <!-- /.col-lg-12 -->

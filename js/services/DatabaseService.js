@@ -95,22 +95,52 @@ app.service('databaseService', ['$q', function($q){
 
 	this.getAllYears = function(){
 		var deferred = $q.defer();
-		var years = [];
+
 		self.yearsRef.orderByChild('year').once('value', function(snapshot){
-			snapshot.forEach(function(childSnapshot){
-				console.log('RESULT', childSnapshot.val());
-				var year = {};
-				year.key = childSnapshot.key;
-				year.year = childSnapshot.val().year;
-				year.regions = childSnapshot.val().regions;
-				year.pollutants = childSnapshot.val().pollutants;
-				years.push(year);
-			});
-			deferred.resolve(years);
+			deferred.resolve(snapshot.val());
 		});
 
 		return deferred.promise;
 	};
+
+	this.getAllRegions = function(){
+		var deferred = $q.defer();
+
+		self.regionsRef.orderByChild('region').once('value', function(snapshot){
+			deferred.resolve(snapshot.val());
+		});
+
+		return deferred.promise;
+	};
+
+	this.getAllPollutants = function(){
+		var deferred = $q.defer();
+
+		self.pollutantsRef.orderByChild('pollutant').once('value', function(snapshot){
+			deferred.resolve(snapshot.val());
+		});
+
+		return deferred.promise;
+	};
+
+	// this.getAllYears = function(){
+	// 	var deferred = $q.defer();
+	// 	var years = [];
+	// 	self.yearsRef.orderByChild('year').once('value', function(snapshot){
+	// 		snapshot.forEach(function(childSnapshot){
+	// 			console.log('RESULT', childSnapshot.val());
+	// 			var year = {};
+	// 			year.key = childSnapshot.key;
+	// 			year.year = childSnapshot.val().year;
+	// 			year.regions = childSnapshot.val().regions;
+	// 			year.pollutants = childSnapshot.val().pollutants;
+	// 			years.push(year);
+	// 		});
+	// 		deferred.resolve(years);
+	// 	});
+
+	// 	return deferred.promise;
+	// };
 
 	this.checkIfRegionExist = function(yearId, regionName){
 		var ref = firebase.database().ref('years/' + yearId);
@@ -138,7 +168,7 @@ app.service('databaseService', ['$q', function($q){
 	this.addNewPollutant = function(pollutantName){
 		var deferred = $q.defer();
 		var pollutant = {
-			name: pollutantName,
+			pollutant: pollutantName,
 			date_added: (new Date()).toString()
 		}
 
@@ -179,7 +209,7 @@ app.service('databaseService', ['$q', function($q){
 	this.addNewRegion = function(regionName){
 		var deferred = $q.defer();
 		var region = {
-			name: regionName,
+			region: regionName,
 			date_added: (new Date()).toString()
 		}
 
