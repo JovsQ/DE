@@ -9,7 +9,7 @@
 
             <div class="row" style="margin: 20px;">
                 <div class="form-group col-lg-2">
-                    <select class="form-control" ng-model="current_year" ng-change="init()">
+                    <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()">
                         <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
                     </select>
                 </div>

@@ -100,6 +100,14 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			.then(function(years){
 				console.log('years', years);
 				$scope.years = years;
+
+				if ($scope.years.length > 0) {
+					if (!$scope.current_year) {
+						$scope.current_year = $scope.years[0];
+					} else {
+						
+					}
+				}
 			});
 
 			databaseService.getAllRegions()
