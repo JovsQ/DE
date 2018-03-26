@@ -95,53 +95,51 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	};
 
-	// $scope.getReadingsBy = function(regionName, source) {
-
-	// 	var readingsBySource = [];
-	// 	var computedReadings = [];
-	// 	$scope.readings.forEach(function(reading){
-	// 		// console.log('reading', reading);
-	// 		if (reading.region == regionName && reading.source == source) {
-	// 			readingsBySource.push(reading);
-	// 		}
-	// 	});
-
-	// 	// console.log('readings by source', readingsBySource);
-
-	// 	$scope.pollutants.forEach(function(pollutant){
-	// 		var exist = false;
-	
-	// 		readingsBySource.forEach(function(reading){
-	// 			if (reading.pollutant == pollutant.pollutant) {
-	// 				exist = true;
-	// 				computedReadings.push(reading.value);
-	// 				//TODO Regional %
-	// 				computedReadings.push(reading.value);
-	// 			}
-	// 		});
-
-	// 		if (!exist) {
-	// 			computedReadings.push(0);
-	// 			//TODO Regional %
-	// 			computedReadings.push(0);
-	// 		}
-	// 	})
-
-	// 	//TODO Total + Regional %
-	// 	computedReadings.push(0);
-	// 	computedReadings.push(0);
-
-	// 	return computedReadings;
-	// };
-
 	$scope.getReadingsBy = function(regionName, source){
 		var computedReadings = [];
 		$scope.pollutants.forEach(function(pollutant){
 			computedReadings.push(getRegionalValueBySource(regionName, pollutant.pollutant, source));
 			computedReadings.push(getRegionalPercentage(regionName, pollutant.pollutant, source));
 		});
+			//TODO Total + Regional %
+		computedReadings.push(getTotalReadingsByRegion(regionName, source));
+		computedReadings.push(getTotalRegionPercentage(regionName, source));
 
 		return computedReadings; 
+	};
+
+	var getTotalReadingsByRegion = function(regionName, source){
+		var totalValue = 0;
+
+		$scope.readings.forEach(function(reading){
+			if (reading.region == regionName 
+				&& reading.source == source){
+				totalValue += reading.value;
+			}
+		});
+
+		return totalValue;
+	};
+
+	var getTotalRegionPercentage = function(regionName, source){
+		var total = 0;
+		var sourceTotal = 0;
+		$scope.readings.forEach(function(reading){
+			if (reading.region == regionName) {
+				total += reading.value;
+				if (reading.source == source) {
+					sourceTotal += reading.value;
+				}
+			}
+		});
+
+		console.log('total', total);
+		console.log('source total', sourceTotal);
+		console.log('percentage', sourceTotal / total * 100);
+
+		sourceTotal = sourceTotal > 0 ? sourceTotal / total * 100 : sourceTotal;
+
+		return +sourceTotal.toFixed(4) + '%'
 	};
 
 	var staticSource = ['Station', 'Mobile', 'Area'];
