@@ -95,6 +95,45 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	};
 
+	$scope.getReadingsBy = function(regionName, source) {
+
+		var readingsBySource = [];
+		var computedReadings = [];
+		$scope.readings.forEach(function(reading){
+			// console.log('reading', reading);
+			if (reading.region == regionName && reading.source == source) {
+				readingsBySource.push(reading);
+			}
+		});
+
+		// console.log('readings by source', readingsBySource);
+
+		$scope.pollutants.forEach(function(pollutant){
+			var exist = false;
+	
+			readingsBySource.forEach(function(reading){
+				if (reading.pollutant == pollutant.pollutant) {
+					exist = true;
+					computedReadings.push(reading.value);
+					//TODO Regional %
+					computedReadings.push(reading.value);
+				}
+			});
+
+			if (!exist) {
+				computedReadings.push(0);
+				//TODO Regional %
+				computedReadings.push(0);
+			}
+		})
+
+		//TODO Total + Regional %
+		computedReadings.push(0);
+		computedReadings.push(0);
+
+		return computedReadings;
+	};
+
 	$scope.addYearDisabled = true;
 
 	$scope.fetchReadings = function(){

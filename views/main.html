@@ -52,8 +52,8 @@
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="station in region.station_values track by $index">
-                                       {{station}}
+                                    <td ng-repeat="value in getReadingsBy(region.region, 'Station') track by $index">
+                                       {{value}}
                                     </td>
                                 </tr>
 
@@ -64,8 +64,8 @@
                                     </td>
 
                                     <!-- pollutants -->
-                                    <td ng-repeat="mobile in region.mobile_values track by $index">
-                                        {{mobile}}
+                                    <td ng-repeat="value in getReadingsBy(region.region, 'Mobile') track by $index">
+                                       {{value}}
                                     </td>
                                 </tr>
 
@@ -76,8 +76,8 @@
                                     </td>
                                    
                                     <!-- pollutants -->
-                                    <td ng-repeat="area in region.area_values track by $index">
-                                        {{area}}
+                                    <td ng-repeat="value in getReadingsBy(region.region, 'Area') track by $index">
+                                       {{value}}
                                     </td>
                                 </tr>
                             </tbody>
