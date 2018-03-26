@@ -13,6 +13,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.selected_year;
 	$scope.pollutants_header = [];
 	$scope.current_year;
+	$scope.readings = [];
 
 	$scope.addEntry = function(){
 		console.log('current year', $scope.current_year);
@@ -112,9 +113,19 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 						console.log('no current year');
 						$scope.current_year = $scope.years[0];
 						$scope.selected_year = $scope.current_year;
+
 					} else {
 						console.log('current year', $scope.current_year);
 					}
+
+					databaseService.getReadingsByYear($scope.current_year.year)
+					.then(function(readings){
+						console.log('readings', readings);
+						$scope.readings = readings;
+					})
+					.catch(function(error){
+						console.log('error', error);
+					});
 				}
 			});
 
