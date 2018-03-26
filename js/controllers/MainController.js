@@ -45,7 +45,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		  	component: 'addPollutantComponent',
 		  	resolve: {
 		      	year: function(){
-		      		return $scope.selected_year;
+		      		return $scope.current_year;
 		      	}
 		  	}
 		});
@@ -63,7 +63,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		  	component: 'addRegionComponent',
 		  	resolve: {
 		      	year: function(){
-		      		return $scope.selected_year;
+		      		return $scope.current_year;
 		      	}
 		  	}
 		});
@@ -109,10 +109,11 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 				if ($scope.years.length > 0) {
 					if (!$scope.current_year) {
+						console.log('no current year');
 						$scope.current_year = $scope.years[0];
 						$scope.selected_year = $scope.current_year;
 					} else {
-
+						console.log('current year', $scope.current_year);
 					}
 				}
 			});
