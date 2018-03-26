@@ -5,6 +5,7 @@ app.service('databaseService', ['$q', function($q){
 	this.regionsRef = firebase.database().ref('regions/');
 	this.pollutantsRef = firebase.database().ref('pollutants/');
 	this.compilationseRef = firebase.database().ref('compilations/');
+	this.readingsRef = firebase.database().ref('readings/');
 
 	this.addNewYear = function(year){
 		var deferred = $q.defer();
@@ -387,6 +388,58 @@ app.service('databaseService', ['$q', function($q){
 				console.log("UPDATED YEAR", year);
 				deferred.resolve(year);
 			});
+		}, function(error){
+			deferred.reject(error.message);
+		});
+
+		return deferred.promise;
+	};
+
+	this.addNewReading = function(selectedYear, selectedRegion, selectedSource, selectedPollutant, inputValue){
+		// var ref = firebase.database().ref
+		var deferred = $q.defer();
+
+		var reading = {
+			year: selectedYear,
+			region: selectedRegion,
+			source: selectedSource,
+			pollutant: selectedPollutant,
+			value: inputValue
+		};
+
+		var onComplete = function(error){
+			if (error) {
+				deferred.reject(error.message);
+			} else {
+				deferred.resolve('region added.');
+			}
+		};
+
+
+		self.readingsRef.orderByChild('region').equalTo(selectedRegion).once('value', function(snapshot){
+			var exist = false;
+			var key;
+			snapshot.forEach(function(childSnapshot){
+				if (childSnapshot.val().year == selectedYear 
+					&& childSnapshot.val().pollutant == selectedPollutant
+					&& childSnapshot.val().source == selectedSource) {
+					exist = true;
+					key = childSnapshot.key;
+				}
+
+			})
+			if (exist && key) {
+				//TODO update
+				console.log('update');
+				var updateReading = {};
+				updateReading[key] = reading;
+				self.readingsRef.update(updateReading, function(){
+					deferred.resolve('region updated.');
+				});
+			} else {
+				//TODO push
+				self.readingsRef.push(reading, onComplete);
+			}
 		}, function(error){
 			deferred.reject(error.message);
 		});

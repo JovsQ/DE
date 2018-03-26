@@ -28,6 +28,14 @@ app.component('addEntryComponent', {
 			console.log('value', value);
 
 			// TODO new saving of entry
+			databaseService.addNewReading(year, region, source, pollutant, value)
+			.then(function(result){
+				console.log('success', result);
+				$ctrl.close({$value: result});
+			})
+			.catch(function(error){
+				console.log('error', error)
+			});
 
 			// databaseService.addEntryPerRegion(yearId, region, source, pollutant, value)
 			// .then(function(result){
