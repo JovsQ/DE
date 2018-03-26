@@ -95,43 +95,71 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	};
 
-	$scope.getReadingsBy = function(regionName, source) {
+	// $scope.getReadingsBy = function(regionName, source) {
 
-		var readingsBySource = [];
+	// 	var readingsBySource = [];
+	// 	var computedReadings = [];
+	// 	$scope.readings.forEach(function(reading){
+	// 		// console.log('reading', reading);
+	// 		if (reading.region == regionName && reading.source == source) {
+	// 			readingsBySource.push(reading);
+	// 		}
+	// 	});
+
+	// 	// console.log('readings by source', readingsBySource);
+
+	// 	$scope.pollutants.forEach(function(pollutant){
+	// 		var exist = false;
+	
+	// 		readingsBySource.forEach(function(reading){
+	// 			if (reading.pollutant == pollutant.pollutant) {
+	// 				exist = true;
+	// 				computedReadings.push(reading.value);
+	// 				//TODO Regional %
+	// 				computedReadings.push(reading.value);
+	// 			}
+	// 		});
+
+	// 		if (!exist) {
+	// 			computedReadings.push(0);
+	// 			//TODO Regional %
+	// 			computedReadings.push(0);
+	// 		}
+	// 	})
+
+	// 	//TODO Total + Regional %
+	// 	computedReadings.push(0);
+	// 	computedReadings.push(0);
+
+	// 	return computedReadings;
+	// };
+
+	$scope.getReadingsBy = function(regionName, source){
 		var computedReadings = [];
-		$scope.readings.forEach(function(reading){
-			// console.log('reading', reading);
-			if (reading.region == regionName && reading.source == source) {
-				readingsBySource.push(reading);
-			}
+		$scope.pollutants.forEach(function(pollutant){
+			computedReadings.push(getRegionalValueBySource(regionName, pollutant.pollutant, source));
 		});
 
-		// console.log('readings by source', readingsBySource);
+		return computedReadings; 
+	};
 
-		$scope.pollutants.forEach(function(pollutant){
-			var exist = false;
-	
-			readingsBySource.forEach(function(reading){
-				if (reading.pollutant == pollutant.pollutant) {
-					exist = true;
-					computedReadings.push(reading.value);
-					//TODO Regional %
-					computedReadings.push(reading.value);
-				}
-			});
+	var getRegionalPercentage = function(regionName, pollutantName){
 
-			if (!exist) {
-				computedReadings.push(0);
-				//TODO Regional %
-				computedReadings.push(0);
+	}
+
+	var getRegionalValueBySource = function(regionName, pollutantName, source) {
+		var exist = false;
+		var value = 0;
+
+		$scope.readings.forEach(function(reading){
+			if (reading.region == regionName
+				&& reading.pollutant == pollutantName
+				&& reading.source == source) {
+				exist = true;
+				value = reading.value;
 			}
-		})
-
-		//TODO Total + Regional %
-		computedReadings.push(0);
-		computedReadings.push(0);
-
-		return computedReadings;
+		});
+		return value;
 	};
 
 	$scope.addYearDisabled = true;
