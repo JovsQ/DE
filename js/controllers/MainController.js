@@ -138,13 +138,46 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		var computedReadings = [];
 		$scope.pollutants.forEach(function(pollutant){
 			computedReadings.push(getRegionalValueBySource(regionName, pollutant.pollutant, source));
+			computedReadings.push(getRegionalPercentage(regionName, pollutant.pollutant, source));
 		});
 
 		return computedReadings; 
 	};
 
-	var getRegionalPercentage = function(regionName, pollutantName){
+	var staticSource = ['Station', 'Mobile', 'Area'];
 
+	var getRegionalPercentage = function(regionName, pollutantName, source){
+		var exist = false;
+		var sourceValue = 0;
+
+		var regionReadings = [];
+
+		$scope.readings.forEach(function(reading){
+			if (reading.region == regionName
+				&& reading.pollutant == pollutantName) {
+				if (reading.source == source){
+					sourceValue	= reading.value;
+				}
+				exist = true;
+				regionReadings.push(reading);
+
+			}			
+		});
+
+		if (sourceValue > 0) {
+			var sumOfAllSource = 0;
+			staticSource.forEach(function(sourceSnapshot){
+				regionReadings.forEach(function(regionSnaphot){
+					if (sourceSnapshot == regionSnaphot.source) {
+						sumOfAllSource += regionSnaphot.value;
+					}
+				})
+			});
+
+			sourceValue = sourceValue / sumOfAllSource * 100;
+		}
+
+		return +sourceValue.toFixed(4) + '%';
 	}
 
 	var getRegionalValueBySource = function(regionName, pollutantName, source) {
