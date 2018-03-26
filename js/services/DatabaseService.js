@@ -416,11 +416,11 @@ app.service('databaseService', ['$q', function($q){
 		};
 
 
-		self.readingsRef.orderByChild('region').equalTo(selectedRegion).once('value', function(snapshot){
+		self.readingsRef.orderByChild('year').equalTo(selectedYear).once('value', function(snapshot){
 			var exist = false;
 			var key;
 			snapshot.forEach(function(childSnapshot){
-				if (childSnapshot.val().year == selectedYear 
+				if (childSnapshot.val().region == selectedRegion 
 					&& childSnapshot.val().pollutant == selectedPollutant
 					&& childSnapshot.val().source == selectedSource) {
 					exist = true;
