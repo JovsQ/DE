@@ -34,7 +34,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		modalInstance.result.then(function(value){
 			console.log('MAIN CONTROLLER RESULT', value);
-			$scope.init();
+			$scope.fetchReadings();
 		}, function () {
 		});	
 	}
@@ -52,7 +52,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		modalInstance.result.then(function(value){
 			console.log('result', value);
-			$scope.init();
+			$scope.fetchReadings();
 		}, function () {
 		});	
 	}
@@ -70,7 +70,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		modalInstance.result.then(function(value){
 			console.log('result', value);
-			$scope.init();
+			$scope.fetchReadings();
 		}, function () {
 		});	
 	};
@@ -88,7 +88,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		modalInstance.result.then(function(value){
 			console.log('YEAR ADDED', value);
-			$scope.init();
+			$scope.fetchReadings();
 		}, function () {
 		});
 
@@ -110,6 +110,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				if ($scope.years.length > 0) {
 					if (!$scope.current_year) {
 						$scope.current_year = $scope.years[0];
+						$scope.selected_year = $scope.current_year;
 					} else {
 
 					}
