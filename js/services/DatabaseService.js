@@ -395,6 +395,58 @@ app.service('databaseService', ['$q', function($q){
 		return deferred.promise;
 	};
 
+	// this.addNewReading = function(selectedYear, selectedRegion, selectedSource, selectedPollutant, inputValue){
+	// 	// var ref = firebase.database().ref
+	// 	var deferred = $q.defer();
+
+	// 	var reading = {
+	// 		year: selectedYear,
+	// 		region: selectedRegion,
+	// 		source: selectedSource,
+	// 		pollutant: selectedPollutant,
+	// 		value: inputValue
+	// 	};
+
+	// 	var onComplete = function(error){
+	// 		if (error) {
+	// 			deferred.reject(error.message);
+	// 		} else {
+	// 			deferred.resolve('region added.');
+	// 		}
+	// 	};
+
+
+	// 	self.readingsRef.orderByChild('year').equalTo(selectedYear).once('value', function(snapshot){
+	// 		var exist = false;
+	// 		var key;
+	// 		snapshot.forEach(function(childSnapshot){
+	// 			if (childSnapshot.val().region == selectedRegion 
+	// 				&& childSnapshot.val().pollutant == selectedPollutant
+	// 				&& childSnapshot.val().source == selectedSource) {
+	// 				exist = true;
+	// 				key = childSnapshot.key;
+	// 			}
+
+	// 		})
+	// 		if (exist && key) {
+	// 			//TODO update
+	// 			console.log('update');
+	// 			var updateReading = {};
+	// 			updateReading[key] = reading;
+	// 			self.readingsRef.update(updateReading, function(){
+	// 				deferred.resolve('region updated.');
+	// 			});
+	// 		} else {
+	// 			//TODO push
+	// 			self.readingsRef.push(reading, onComplete);
+	// 		}
+	// 	}, function(error){
+	// 		deferred.reject(error.message);
+	// 	});
+
+	// 	return deferred.promise;
+	// };
+
 	this.addNewReading = function(selectedYear, selectedRegion, selectedSource, selectedPollutant, inputValue){
 		// var ref = firebase.database().ref
 		var deferred = $q.defer();
@@ -415,34 +467,36 @@ app.service('databaseService', ['$q', function($q){
 			}
 		};
 
+		var readings = [];
+		var exist = false;
 
-		self.readingsRef.orderByChild('year').equalTo(selectedYear).once('value', function(snapshot){
-			var exist = false;
-			var key;
-			snapshot.forEach(function(childSnapshot){
-				if (childSnapshot.val().region == selectedRegion 
-					&& childSnapshot.val().pollutant == selectedPollutant
-					&& childSnapshot.val().source == selectedSource) {
-					exist = true;
-					key = childSnapshot.key;
-				}
+		self.compilationseRef.once('value', function(snapshot){
+			console.log('readings snapshot', snapshot.numChildren())
+			if (snapshot.numChildren() > 0) {
+				snapshot.forEach(function(childSnapshot){
+					readings.push(childSnapshot.val());
+				})
 
-			})
-			if (exist && key) {
-				//TODO update
-				console.log('update');
-				var updateReading = {};
-				updateReading[key] = reading;
-				self.readingsRef.update(updateReading, function(){
-					deferred.resolve('region updated.');
+				readings.forEach(function(readingSnapshot){
+					if (readingSnapshot.region == selectedRegion 
+						&& readingSnapshot.pollutant == selectedPollutant
+						&& readingSnapshot.source == selectedSource) {
+						exist = true;
+						readingSnapshot.value = inputValue;
+					}
 				});
+				
+				if (!exist) {
+					readings.push(reading)
+				}				
 			} else {
-				//TODO push
-				self.readingsRef.push(reading, onComplete);
+				readings.push(reading);
 			}
-		}, function(error){
-			deferred.reject(error.message);
-		});
+			self.compilationseRef.set(readings, function(){
+				deferred.resolve('region updated.');
+			});
+
+		})
 
 		return deferred.promise;
 	};

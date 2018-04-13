@@ -36,15 +36,6 @@ app.component('addEntryComponent', {
 			.catch(function(error){
 				console.log('error', error)
 			});
-
-			// databaseService.addEntryPerRegion(yearId, region, source, pollutant, value)
-			// .then(function(result){
-			// 	console.log('success', result);
-			// 	$ctrl.close({$value: result});
-			// })
-			// .catch(function(error){
-			// 	console.log('error', error);
-			// })
 		};
 
 		$ctrl.regionSelected = function(){

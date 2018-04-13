@@ -133,9 +133,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			}
 		});
 
-		console.log('total', total);
-		console.log('source total', sourceTotal);
-		console.log('percentage', sourceTotal / total * 100);
+		// console.log('total', total);
+		// console.log('source total', sourceTotal);
+		// console.log('percentage', sourceTotal / total * 100);
 
 		sourceTotal = sourceTotal > 0 ? sourceTotal / total * 100 : sourceTotal;
 
