@@ -226,7 +226,7 @@ app.service('databaseService', ['$q', function($q){
 		var deferred = $q.defer();
 		var region = {
 			region: regionName,
-			lattitude: lat,
+			latitude: lat,
 			longitude: long,
 			date_added: (new Date()).toString()
 		}
@@ -460,14 +460,14 @@ app.service('databaseService', ['$q', function($q){
 	// 	return deferred.promise;
 	// };
 
-	this.addNewReading = function(selectedYear, selectedRegion, selectedLattitude, selectedLongitude, selectedSource, selectedPollutant, inputValue){
+	this.addNewReading = function(selectedYear, selectedRegion, selectedLatitude, selectedLongitude, selectedSource, selectedPollutant, inputValue){
 		// var ref = firebase.database().ref
 		var deferred = $q.defer();
 
 		var reading = {
 			year: selectedYear,
 			region: selectedRegion,
-			lattitude: selectedLattitude,
+			latitude: selectedLatitude,
 			longitude: selectedLongitude,
 			source: selectedSource,
 			pollutant: selectedPollutant,
@@ -498,7 +498,7 @@ app.service('databaseService', ['$q', function($q){
 						&& readingSnapshot.source == selectedSource) {
 						exist = true;
 						readingSnapshot.value = inputValue;
-						readingSnapshot.lattitude = selectedLattitude;
+						readingSnapshot.latitude = selectedLatitude;
 						readingSnapshot.longitude = selectedLongitude;
 					}
 				});

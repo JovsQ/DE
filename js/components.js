@@ -20,18 +20,18 @@ app.component('addEntryComponent', {
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
 
-			var lattitude = '';
+			var latitude = '';
 			var longitude = '';
 
 			$ctrl.resolve.regions.forEach(function(regionSnapshot){
 				if (regionSnapshot.region == region) {
-					lattitude = regionSnapshot.lattitude;
+					latitude = regionSnapshot.latitude;
 					longitude = regionSnapshot.longitude;
 				}
 			})
 
 			// TODO new saving of entry
-			databaseService.addNewReading(year, region, lattitude, longitude
+			databaseService.addNewReading(year, region, latitude, longitude
 				, source, pollutant, value)
 			.then(function(result){
 				console.log('success', result);
