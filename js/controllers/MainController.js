@@ -216,7 +216,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 						console.log('current year', $scope.current_year);
 					}
 
-					databaseService.getReadingsByYear($scope.current_year.year)
+					// databaseService.getReadingsByYear($scope.current_year.year)
+					databaseService.getCompilationsByYear($scope.current_year.year)
 					.then(function(readings){
 						console.log('readings', readings);
 						$scope.readings = readings;

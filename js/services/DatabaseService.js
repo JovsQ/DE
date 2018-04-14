@@ -517,6 +517,24 @@ app.service('databaseService', ['$q', function($q){
 		return deferred.promise;
 	}
 
+	this.getCompilationsByYear = function(year){
+		var deferred = $q.defer();
+		var readings = [];
+
+		self.compilationseRef.once("value", function(snapshot){
+			snapshot.val().forEach(function(readingsSnapshot){
+				if (readingsSnapshot.year == year) {
+					readings.push(readingsSnapshot);
+				}
+			})
+			deferred.resolve(readings);
+		}, function(error){
+			deferred.reject(error.message);
+		});
+
+		return deferred.promise;
+	};
+
 	this.addEntryPerRegion = function(yearId, region, source, pollutant, value){
 		var ref = firebase.database().ref('years/' + yearId);
 		var deferred = $q.defer();
