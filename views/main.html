@@ -35,7 +35,9 @@
                             <thead>
                                 <tr>
                                     <th>REGION</th>
-                                    <th>SOURCE</th>
+                                    <th>LAT</th>
+                                    <th>LONG</th>
+                                    <th>SOURCE</th>                                    
                                     <th ng-repeat="pollutant in pollutants_header track by $index">{{pollutant}}</th>
                                     <th style="color: red">TOTAL</th>
                                     <th style="color: red">Regional %</th>
@@ -46,6 +48,13 @@
                                 <tr>
                                     <!-- region -->
                                     <td rowspan="3" class="labels" style="vertical-align: middle !important">{{region.region}}</td>
+
+                                    <!-- lat -->
+                                    <td rowspan="3" class="labels" style="vertical-align: middle !important">Display latitude here</td>
+
+                                    <!-- long -->
+                                    <td rowspan="3" class="labels" style="vertical-align: middle !important">Display longitude here</td>
+
                                     <!-- stationary -->
                                     <td class="labels" style="color: red">
                                         Stationary
