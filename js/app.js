@@ -43,4 +43,31 @@ app.directive('onlyDigits', function () {
         ctrl.$parsers.push(inputValue);
       }
     };
+});
+
+app.directive('onlyBigDecimals', function () {
+    return {
+      require: 'ngModel',
+      restrict: 'A',
+      link: function (scope, element, attr, ctrl) {
+        function inputValue(val) {
+          if (val) {
+            var digits = val
+                .replace(/[^\d.]/g, '') // accespts only digits
+                .replace(/(^[\d]{7})[\d]/g, '$1')   // not more than 7 digits at the beginning
+                .replace(/(\..*)\./g, '$1')         // decimal can't exist more than once
+                .replace(/(\.[\d]{13})./g, '$1');    // not more than 13 digits after decimal
+
+            if (digits !== val) {
+              ctrl.$setViewValue(digits);
+              ctrl.$render();
+            }
+            return digits;
+          }
+          return undefined;
+        }
+
+        ctrl.$parsers.push(inputValue);
+      }
+    };
 })

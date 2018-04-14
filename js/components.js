@@ -114,9 +114,11 @@ app.component('addRegionComponent', {
 			console.log('add region modal init');
 		};
 
-		$ctrl.ok = function(regionName){
+		$ctrl.ok = function(regionName, lat, long){
+			console.log('LAT', lat);
+			console.log('LONG', long);
 
-			databaseService.addNewRegion(regionName)
+			databaseService.addNewRegion(regionName, lat, long)
 			.then(function(result){
 				$ctrl.close({$value: true});
 			})

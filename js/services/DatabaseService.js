@@ -222,10 +222,12 @@ app.service('databaseService', ['$q', function($q){
 		return deferred.promise;
 	};
 
-	this.addNewRegion = function(regionName){
+	this.addNewRegion = function(regionName, lat, long){
 		var deferred = $q.defer();
 		var region = {
 			region: regionName,
+			lattitude: lat,
+			longitude: long,
 			date_added: (new Date()).toString()
 		}
 
@@ -239,8 +241,16 @@ app.service('databaseService', ['$q', function($q){
 
 		self.checkRegionExist(regionName)
 		.then(function(result){
-			if (!result) {
+			console.log('RESULT', result);
+			if (!result.exist) {
 				self.regionsRef.push(region, onComplete);
+			} else {
+				// TODO Update latlang of region
+				var updateRegion = {};
+				updateRegion[result.key] = region;
+				self.regionsRef.update(updateRegion, function(){
+					deferred.resolve(region);
+				});
 			}
 		});
 			
@@ -250,14 +260,17 @@ app.service('databaseService', ['$q', function($q){
 	this.checkRegionExist = function(regionName){
 		var deferred = $q.defer();
 
+		var result = {};
+
 		self.regionsRef.once('value', function(snapshot){
-			var exist = false
+			result.exist = false
 			snapshot.forEach(function(childSnapshot){
-				if (childSnapshot.val().name == regionName) {
-					exist = true;
+				if (childSnapshot.val().region == regionName) {
+					result.key = childSnapshot.key;
+					result.exist = true;
 				}
 			});
-			deferred.resolve(exist);
+			deferred.resolve(result);
 		});
 
 		return deferred.promise;
