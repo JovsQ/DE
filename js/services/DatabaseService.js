@@ -460,13 +460,15 @@ app.service('databaseService', ['$q', function($q){
 	// 	return deferred.promise;
 	// };
 
-	this.addNewReading = function(selectedYear, selectedRegion, selectedSource, selectedPollutant, inputValue){
+	this.addNewReading = function(selectedYear, selectedRegion, selectedLattitude, selectedLongitude, selectedSource, selectedPollutant, inputValue){
 		// var ref = firebase.database().ref
 		var deferred = $q.defer();
 
 		var reading = {
 			year: selectedYear,
 			region: selectedRegion,
+			lattitude: selectedLattitude,
+			longitude: selectedLongitude,
 			source: selectedSource,
 			pollutant: selectedPollutant,
 			value: inputValue
@@ -496,6 +498,8 @@ app.service('databaseService', ['$q', function($q){
 						&& readingSnapshot.source == selectedSource) {
 						exist = true;
 						readingSnapshot.value = inputValue;
+						readingSnapshot.lattitude = selectedLattitude;
+						readingSnapshot.longitude = selectedLongitude;
 					}
 				});
 				

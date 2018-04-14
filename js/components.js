@@ -10,7 +10,6 @@ app.component('addEntryComponent', {
 		var $ctrl = this;
 
 		$ctrl.$onInit = function(){
-			console.log('add entry modal init', $ctrl.resolve.year);
 			$ctrl.source = ['Station', 'Mobile', 'Area'];
 		};
 
@@ -21,14 +20,19 @@ app.component('addEntryComponent', {
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
 
-			console.log('year', year);
-			console.log('region', region);
-			console.log('source', source);
-			console.log('pollutant', pollutant);
-			console.log('value', value);
+			var lattitude = '';
+			var longitude = '';
+
+			$ctrl.resolve.regions.forEach(function(regionSnapshot){
+				if (regionSnapshot.region == region) {
+					lattitude = regionSnapshot.lattitude;
+					longitude = regionSnapshot.longitude;
+				}
+			})
 
 			// TODO new saving of entry
-			databaseService.addNewReading(year, region, source, pollutant, value)
+			databaseService.addNewReading(year, region, lattitude, longitude
+				, source, pollutant, value)
 			.then(function(result){
 				console.log('success', result);
 				$ctrl.close({$value: result});
