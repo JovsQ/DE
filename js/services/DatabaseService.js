@@ -493,7 +493,8 @@ app.service('databaseService', ['$q', function($q){
 				})
 
 				readings.forEach(function(readingSnapshot){
-					if (readingSnapshot.region == selectedRegion 
+					if (readingSnapshot.region == selectedRegion
+						&& readingSnapshot.year == selectedYear 
 						&& readingSnapshot.pollutant == selectedPollutant
 						&& readingSnapshot.source == selectedSource) {
 						exist = true;

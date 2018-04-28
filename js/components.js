@@ -20,6 +20,12 @@ app.component('addEntryComponent', {
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
 
+			console.log('YEAR', year);
+			console.log('REGION', region);
+			console.log('SOURCE', source);
+			console.log('POLLUTANT', pollutant);
+			console.log('VALUE', value);
+
 			var latitude = '';
 			var longitude = '';
 
