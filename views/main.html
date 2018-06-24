@@ -2,31 +2,54 @@
 
     <div id="page-wrapper">
         <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">EI Compilation</h1>
-                
-            </div>   
 
-            <div class="row" style="margin: 20px;">
-                <div class="form-group col-lg-2">
-                    <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()">
-                        <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
-                    </select>
-                </div>
+            <div class="col-lg-2">
+                <img ng-src="images/denr_logo.png" style="width: 150px; height: 100px;">    
+            </div>
+            <div class="col-lg-8" style="margin-bottom: 40px; display: flex; justify-content: center; align-items: center;">
+                <h1>Emission Inventory Compilation WebApp</h1>
+            </div>
+            <div class="col-lg-2">
+                
+            </div>                
+
+            <div class="form-group col-lg-4">
+                <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()" style="width: 100%; mar">
+                    <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
+                </select>
+            </div>   
+            <div class="col-lg-2">
+                <button style="width: 100%" class="btn btn-success" ng-click="addYear()">Add Year</button>    
+            </div>
+            <div class="col-lg-2">
+                <button style="width: 100%" class="btn btn-success" ng-click="addRegion()">Add Region</button>
+            </div>
+            <div class="col-lg-2">
+                <button style="width: 100%" class="btn btn-success" ng-click="addPollutant()">Add Pollutant</button>
+            </div>
+            <div class="col-lg-2">
+                <button style="width: 100%" class="btn btn-success" ng-click="addEntry()">Add Reading</button>
+            </div>
+            
+            
+            
+            
+            <!-- <div class="row"> -->
 
                 <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()" ng-disabled="noRegion() || noPollutants()">Add Reading</button> -->
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addEntry()">Add Reading</button>
+                
                 
                 <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()" ng-disabled="noYearSelected()">Add Pollutant</button> -->
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addPollutant()">Add Pollutant</button>
+                
 
                <!--  <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()" ng-disabled="noYearSelected()">Add Region</button> -->
-               <button class="col-lg-2 btn btn-success pull-right" ng-click="addRegion()">Add Region</button>
+               
 
                 <!-- <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()" ng-disabled="addYearDisabled == true">Add Year</button> -->
-                <button class="col-lg-2 btn btn-success pull-right" ng-click="addYear()">Add Year</button>
                 
-            </div>
+                
+            <!-- </div> -->
+
             <!-- /.col-lg-12 -->
             <div class="row">
                 <div class="col-lg-12">
