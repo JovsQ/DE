@@ -7,6 +7,20 @@ app.service('databaseService', ['$q', function($q){
 	this.compilationseRef = firebase.database().ref('compilations/');
 	this.readingsRef = firebase.database().ref('readings/');
 
+
+	this.loginWithAccount = function(username, password){
+		var ref = firebase.auth();
+		var deferred = $q.defer();
+
+		ref.signInWithEmailAndPassword(username, password).then(function(result){
+			deferred.resolve();
+		}, function(error){
+			deferred.reject(error.message);
+		});
+
+		return deferred.promise;
+	};
+
 	this.addNewYear = function(year){
 		var deferred = $q.defer();
 		var promises = [];

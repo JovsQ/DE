@@ -5,16 +5,21 @@ app.config(function($routeProvider, $locationProvider, $compileProvider){
 	$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|tel|blob):/);
 
 	$routeProvider
+  .when('/login', {
+    templateUrl: 'views/login.html',
+    controller: 'LoginController'
+  })
+
 	.when('/main', {
 		templateUrl: 'views/main.html',
 		controller: 'MainController'
 	})
 
 	.when('/', {
-		templateUrl: 'views/main.html',
-		controller: 'MainController'
+		templateUrl: 'views/login.html',
+		controller: 'LoginController'
 	})
-	.otherwise({redirectTo: '/main'});
+	.otherwise({redirectTo: '/login'});
 
 });
 

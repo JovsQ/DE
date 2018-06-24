@@ -198,8 +198,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.fetchReadings = function(){
 		var promises = [];
 
-		firebaseSignIn()
-		.then(function(result){
+		// firebaseSignIn()
+		// .then(function(result){
 			//get years
 			databaseService.getAllYears()
 			.then(function(years){
@@ -240,7 +240,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				$scope.pollutants = pollutants;
 				generateHeaders(pollutants);
 			});
-		});
+		// });
 	};
 
 	// var initReadings = function(){
