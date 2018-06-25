@@ -2,6 +2,8 @@ app.controller('LoginController', ['$location', '$scope', 'databaseService', fun
 	$scope.username = '';
 	$scope.password = '';
 
+	// console.log('firebase', firebase.auth());
+
 
 	$scope.login = function(){
 		console.log('login');
@@ -11,5 +13,12 @@ app.controller('LoginController', ['$location', '$scope', 'databaseService', fun
 		}, function(error){
 			console.log('Authentication error', error);
 		})
+		// firebase.auth().signOut()
+		// .then(function(){
+		// 	console.log('success logout');
+		// })
+		// .catch(function(error){
+		// 	console.log('error', error);
+		// })
 	};
 }]);

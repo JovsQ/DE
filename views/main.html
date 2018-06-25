@@ -14,7 +14,8 @@
             </div>                
 
             <div class="form-group col-lg-4">
-                <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()" style="width: 100%; mar">
+                <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()" style="width: 100%;">
+                    <option value='' selected="true" disabled="disabled">Select Year</option>
                     <option ng-repeat="year in years" ng-value="year.year">{{year.year}}</option>
                 </select>
             </div>   
