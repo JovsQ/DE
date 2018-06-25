@@ -118,7 +118,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			}
 		});
 
-		return totalValue;
+		// return totalValue;
+		return totalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 
 	var getTotalRegionPercentage = function(regionName, source){
@@ -190,7 +191,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				value = reading.value;
 			}
 		});
-		return value;
+
+		// return value;
+		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 
 	$scope.addYearDisabled = true;
