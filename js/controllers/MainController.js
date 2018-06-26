@@ -108,6 +108,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		return computedReadings; 
 	};
 
+
 	var getTotalReadingsByRegion = function(regionName, source){
 		var totalValue = 0;
 
@@ -200,6 +201,37 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	};
 
 	$scope.addYearDisabled = true;
+
+	$scope.getPollutantTotal = function(pollutant, index) {
+
+		var totalPollutantValue = 0;
+
+		$scope.readings.forEach(function(reading) {
+			console.log('reading pollutant', reading.pollutant);
+			if (reading.pollutant == pollutant) {
+				totalPollutantValue += reading.value;
+			}
+
+		});
+
+		totalPollutantValue = totalPollutantValue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+
+		return pollutant !== 'Regional %' ? totalPollutantValue : '';
+	};
+
+	$scope.getPollutantGrandTotal = function() {
+		console.log('POLLUTANTS', $scope.pollutants);
+		var total = 0;
+
+		$scope.readings.forEach(function(reading) {
+			total += reading.value;
+		});
+
+		total = total.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+		return total;
+	}
 
 	$scope.fetchReadings = function(){
 		var promises = [];

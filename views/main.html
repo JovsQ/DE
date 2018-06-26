@@ -95,6 +95,12 @@
                                     </td>
                                 </tr>
                             </tbody>
+
+                            <tbody>
+                                <th colspan="4">TOTAL</th>                                    
+                                <th colspan="2" ng-repeat="pollutant in pollutants track by $index">{{getPollutantTotal(pollutant.pollutant, $index)}}</th>
+                                <th colspan="2" style="color: red">{{getPollutantGrandTotal()}}</th>
+                            </tbody>
                         </table>
 
                         <div class="labels" ng-hide="regions" style="margin-top: 50px;">No Data to display.</div>
