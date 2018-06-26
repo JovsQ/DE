@@ -119,6 +119,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 
 		// return totalValue;
+		totalValue = totalValue.toFixed(2);
 		return totalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 
@@ -140,7 +141,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		sourceTotal = sourceTotal > 0 ? sourceTotal / total * 100 : sourceTotal;
 
-		return +sourceTotal.toFixed(4) + '%'
+		// return +sourceTotal.toFixed(4) + '%'
+		return +sourceTotal.toFixed(2) + '%'
 	};
 
 	var staticSource = ['Station', 'Mobile', 'Area'];
@@ -176,7 +178,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			sourceValue = sourceValue / sumOfAllSource * 100;
 		}
 
-		return +sourceValue.toFixed(4) + '%';
+		// return +sourceValue.toFixed(4) + '%';
+		return +sourceValue.toFixed(2) + '%';
 	}
 
 	var getRegionalValueBySource = function(regionName, pollutantName, source) {
@@ -188,7 +191,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				&& reading.pollutant == pollutantName
 				&& reading.source == source) {
 				exist = true;
-				value = reading.value;
+				value = reading.value.toFixed(2);
 			}
 		});
 
