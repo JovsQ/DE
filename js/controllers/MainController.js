@@ -120,7 +120,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 
 		// return totalValue;
-		totalValue = totalValue.toFixed(2);
+		totalValue = totalValue.toFixed(0);
 		return totalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 
@@ -192,7 +192,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				&& reading.pollutant == pollutantName
 				&& reading.source == source) {
 				exist = true;
-				value = reading.value.toFixed(2);
+				value = reading.value.toFixed(0);
 			}
 		});
 
@@ -214,7 +214,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		});
 
-		totalPollutantValue = totalPollutantValue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		totalPollutantValue = totalPollutantValue.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 
 		return pollutant !== 'Regional %' ? totalPollutantValue : '';
@@ -228,7 +228,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			total += reading.value;
 		});
 
-		total = total.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		total = total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 		return total;
 	}
