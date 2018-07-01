@@ -95,6 +95,54 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	};
 
+	$scope.getTotalReadingsBy = function(source) {
+		var computedReadings = [];
+		$scope.pollutants.forEach(function(pollutant){
+			computedReadings.push(getTotalValueBySource(pollutant.pollutant, source));
+			computedReadings.push(getTotalPercentageBySource(pollutant.pollutant, source));
+		});
+
+		return computedReadings;
+	}
+
+	var getTotalValueBySource = function(pollutantName, source) {
+		var value = 0;
+
+		$scope.readings.forEach(function(reading){
+			if (reading.pollutant == pollutantName
+				&& reading.source == source) {
+				value += reading.value;
+			}
+		});
+
+		// return value;
+		return value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	};
+
+	var getTotalPercentageBySource = function(pollutantName, source){
+
+		var totalPollutantValue = 0;
+		var totalPollutantValueBySource = 0;
+
+		$scope.readings.forEach(function(reading) {
+			console.log('reading pollutant', reading.pollutant);
+			if (reading.pollutant == pollutantName) {
+				totalPollutantValue += reading.value;
+				if (reading.source == source) {
+					totalPollutantValueBySource += reading.value;
+				}
+			}
+
+		});
+		if (totalPollutantValue > 0) {
+			totalPollutantValueBySource = totalPollutantValueBySource / totalPollutantValue * 100;
+		}
+
+		
+
+		return +totalPollutantValueBySource.toFixed(2) + '%';
+	};
+
 	$scope.getReadingsBy = function(regionName, source){
 		var computedReadings = [];
 		$scope.pollutants.forEach(function(pollutant){
@@ -120,7 +168,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		});
 
 		// return totalValue;
-		totalValue = totalValue.toFixed(2);
+		totalValue = totalValue.toFixed(0);
 		return totalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 
@@ -192,7 +240,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				&& reading.pollutant == pollutantName
 				&& reading.source == source) {
 				exist = true;
-				value = reading.value.toFixed(2);
+				value = reading.value.toFixed(0);
 			}
 		});
 
