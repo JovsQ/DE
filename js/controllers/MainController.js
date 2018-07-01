@@ -305,7 +305,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					// databaseService.getReadingsByYear($scope.current_year.year)
 					databaseService.getCompilationsByYear($scope.current_year.year)
 					.then(function(readings){
-						console.log('readings', readings);
+						console.log('readings init', readings);
 						$scope.readings = readings;
 					})
 					.catch(function(error){
@@ -316,8 +316,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 			databaseService.getAllRegions()
 			.then(function(regions){
-				console.log('regions', regions);
-				$scope.regions = regions;
+				console.log('FETCHING REGIONS', regions);
+				$scope.regions = sortRegions(regions);
 			});
 
 			databaseService.getAllPollutants()
@@ -328,6 +328,191 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			});
 		// });
 	};
+
+	var sortRegions = function(regions){
+		var sortedRegions = [];
+		var otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "ncr") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "car") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "caraga") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 1") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 2") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 3") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 4a" || region.region.toLowerCase() == "region 4-a") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 4b" || region.region.toLowerCase() == "region 4-b") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 5") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 6") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 7") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 8") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 9") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 10") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 11") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 12") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		otherRegions.forEach(function(region){
+			sortedRegions.push(region);
+		})
+
+		console.log('SORTED REGIONS', sortedRegions);
+		return sortedRegions;
+	}
 
 	// var initReadings = function(){
 	// 	// generateHeaders();
