@@ -144,6 +144,10 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		var totalPollutantValueBySource = 0;
 
 		$scope.readings.forEach(function(reading) {
+<<<<<<< HEAD
+=======
+			console.log('reading pollutant', reading.pollutant);
+>>>>>>> ff3a09cbd09314b4c087a92b25ac53bc0f9538c1
 			if (reading.pollutant == pollutantName) {
 				totalPollutantValue += reading.value;
 				if (reading.source == source) {
@@ -524,10 +528,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			}
 		})
 
-		otherRegions.forEach(function(region){
-			sortedRegions.push(region);
-		})
-
 		regions = otherRegions;
 		otherRegions = [];
 
@@ -538,6 +538,10 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				otherRegions.push(region);
 			}
 		})
+
+		otherRegions.forEach(function(region){
+			sortedRegions.push(region);
+		})		
 
 		console.log('SORTED REGIONS', sortedRegions);
 		return sortedRegions;
