@@ -1,7 +1,7 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" aria-label="Close" ng-click="$ctrl.cancel()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Add Entry</h4>
+    <h4 class="modal-title">Add / Update Entry</h4>
   </div>
   <div class="modal-body">
 
@@ -28,7 +28,7 @@
 
     <div class="form-group">
       <label class="control-label">Source</label>
-      <select class="form-control" ng-model="$ctrl.selectedSource" ng-disabled="!$ctrl.selectedPollutant">
+      <select class="form-control" ng-model="$ctrl.selectedSource" ng-disabled="!$ctrl.selectedPollutant" ng-change="$ctrl.sourceSelected()">
         <option value='' selected="true" ng-disabled="true">Select Source</option>
         <option ng-repeat="source in $ctrl.source" ng-value="source">{{source}}</option>
       </select>

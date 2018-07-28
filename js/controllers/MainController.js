@@ -15,6 +15,12 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.current_year;
 	$scope.readings = [];
 
+	$scope.hasSelectedYear = function() {
+		console.log('has selected year', $scope.current_year.year);
+
+		return $scope.current_year.year ? true : false;
+	}
+
 	$scope.addEntry = function(){
 		console.log('current year', $scope.current_year);
 		var modalInstance = $uibModal.open({
@@ -29,6 +35,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		      	},
 		      	pollutants: function(){
 		      		return $scope.pollutants
+		      	},
+		      	readings: function(){
+		      		return  $scope.readings
 		      	}
 		  	}
 		});
@@ -38,6 +47,16 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			$scope.fetchReadings();
 		}, function () {
 		});	
+	}
+
+	$scope.updateEntry = function(value, index, length, region){
+		if (index % 2 == 0 && index < length - 2) {
+			console.log('reading clicked', value);
+			console.log('reading index', index);
+			console.log('reading length', length);
+			console.log('pollutant', $scope.pollutants[index / 2].pollutant);
+			console.log('year', $scope.current_year.year);
+		}
 	}
 
 	$scope.addPollutant = function(){
@@ -93,6 +112,53 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		}, function () {
 		});
 
+	};
+
+	$scope.getTotalReadingsBy = function(source) {
+		var computedReadings = [];
+		$scope.pollutants.forEach(function(pollutant){
+			computedReadings.push(getTotalValueBySource(pollutant.pollutant, source));
+			computedReadings.push(getTotalPercentageBySource(pollutant.pollutant, source));
+		});
+
+		return computedReadings;
+	}
+
+	var getTotalValueBySource = function(pollutantName, source) {
+		var value = 0;
+
+		$scope.readings.forEach(function(reading){
+			if (reading.pollutant == pollutantName
+				&& reading.source == source) {
+				value += reading.value;
+			}
+		});
+
+		// return value;
+		return value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	};
+
+	var getTotalPercentageBySource = function(pollutantName, source){
+
+		var totalPollutantValue = 0;
+		var totalPollutantValueBySource = 0;
+
+		$scope.readings.forEach(function(reading) {
+			if (reading.pollutant == pollutantName) {
+				totalPollutantValue += reading.value;
+				if (reading.source == source) {
+					totalPollutantValueBySource += reading.value;
+				}
+			}
+
+		});
+		if (totalPollutantValue > 0) {
+			totalPollutantValueBySource = totalPollutantValueBySource / totalPollutantValue * 100;
+		}
+
+		
+
+		return +totalPollutantValueBySource.toFixed(2) + '%';
 	};
 
 	$scope.getReadingsBy = function(regionName, source){
@@ -214,7 +280,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		});
 
-		totalPollutantValue = totalPollutantValue.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		totalPollutantValue = totalPollutantValue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 
 		return pollutant !== 'Regional %' ? totalPollutantValue : '';
@@ -228,7 +294,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			total += reading.value;
 		});
 
-		total = total.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		total = total.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 		return total;
 	}
@@ -257,7 +323,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 					// databaseService.getReadingsByYear($scope.current_year.year)
 					databaseService.getCompilationsByYear($scope.current_year.year)
 					.then(function(readings){
-						console.log('readings', readings);
+						console.log('readings init', readings);
 						$scope.readings = readings;
 					})
 					.catch(function(error){
@@ -268,8 +334,8 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 			databaseService.getAllRegions()
 			.then(function(regions){
-				console.log('regions', regions);
-				$scope.regions = regions;
+				console.log('FETCHING REGIONS', regions);
+				$scope.regions = sortRegions(regions);
 			});
 
 			databaseService.getAllPollutants()
@@ -280,6 +346,202 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			});
 		// });
 	};
+
+	var sortRegions = function(regions){
+		var sortedRegions = [];
+		var otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "ncr") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 1") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "car") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 2") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 3") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 4a" || region.region.toLowerCase() == "region 4-a") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 4b" || region.region.toLowerCase() == "region 4-b") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 5") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 6") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 7") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 8") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 9") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 10") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 11") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "region 12") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "caraga") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		otherRegions.forEach(function(region){
+			sortedRegions.push(region);
+		})
+
+		regions = otherRegions;
+		otherRegions = [];
+
+		regions.forEach(function(region){
+			if (region.region.toLowerCase() == "armm") {
+				sortedRegions.push(region);
+			} else {
+				otherRegions.push(region);
+			}
+		})
+
+		console.log('SORTED REGIONS', sortedRegions);
+		return sortedRegions;
+	}
 
 	// var initReadings = function(){
 	// 	// generateHeaders();

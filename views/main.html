@@ -23,13 +23,13 @@
                 <button style="width: 100%" class="btn btn-success" ng-click="addYear()">Add Year</button>    
             </div>
             <div class="col-lg-2">
-                <button style="width: 100%" class="btn btn-success" ng-click="addRegion()">Add Region</button>
+                <button style="width: 100%" class="btn btn-success" ng-click="addRegion()" ng-disabled="!current_year.year">Add Region</button>
             </div>
             <div class="col-lg-2">
-                <button style="width: 100%" class="btn btn-success" ng-click="addPollutant()">Add Pollutant</button>
+                <button style="width: 100%" class="btn btn-success" ng-click="addPollutant()" ng-disabled="!current_year.year">Add Pollutant</button>
             </div>
             <div class="col-lg-2">
-                <button style="width: 100%" class="btn btn-success" ng-click="addEntry()">Add Reading</button>
+                <button style="width: 100%" class="btn btn-success" ng-click="addEntry()" ng-disabled="!current_year.year">Add / Update Reading</button>
             </div>
 
             <!-- /.col-lg-12 -->
@@ -97,13 +97,53 @@
                             </tbody>
 
                             <tbody>
-                                <th colspan="4">TOTAL</th>                                    
+                                <!-- <th colspan="4">Grand Total</th>                                  
                                 <th colspan="2" ng-repeat="pollutant in pollutants track by $index">{{getPollutantTotal(pollutant.pollutant, $index)}}</th>
-                                <th colspan="2" style="color: red">{{getPollutantGrandTotal()}}</th>
+                                <th colspan="2" style="color: red">{{getPollutantGrandTotal()}}</th> -->
+
+                                <tr>
+                                    <!-- region -->
+                                    <th rowspan="3" colspan="3" class="labels" style="vertical-align: middle !important">Grand Total</th>
+
+                                    <!-- stationary -->
+                                    <th class="labels" style="color: red">
+                                        Stationary
+                                    </th>
+                                    
+                                    <!-- pollutants -->
+                                    <td ng-repeat="value in getTotalReadingsBy('Station') track by $index" style="font-weight: bold;">
+                                       {{value}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <!-- stationary -->
+                                    <th class="labels" style="color: red">
+                                        Mobile
+                                    </th>
+
+                                    <!-- pollutants -->
+                                    <td ng-repeat="value in getTotalReadingsBy('Mobile') track by $index"
+                                    style="font-weight: bold;">
+                                       {{value}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <!-- area -->
+                                    <th class="labels" style="color: red">
+                                        Area
+                                    </th>
+                                   
+                                    <!-- pollutants -->
+                                    <td ng-repeat="value in getTotalReadingsBy('Area') track by $index"
+                                    style="font-weight: bold;">
+                                       {{value}}
+                                    </td>
+                                </tr>
+
                             </tbody>
                         </table>
-
-                        <div class="labels" ng-hide="regions" style="margin-top: 50px;">No Data to display.</div>
                     </div>
                 </div>
             </div>

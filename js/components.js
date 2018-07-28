@@ -11,7 +11,24 @@ app.component('addEntryComponent', {
 
 		$ctrl.$onInit = function(){
 			$ctrl.source = ['Station', 'Mobile', 'Area'];
+			console.log('readings size', $ctrl.resolve.readings.length);
 		};
+
+		$ctrl.sourceSelected = function() {
+			var readings = $ctrl.resolve.readings;
+			if ($ctrl.selectedRegion && $ctrl.selectedSource && $ctrl.selectedPollutant) {
+				readings.forEach(function(reading) {
+					if (reading.region == $ctrl.selectedRegion &&
+						reading.pollutant == $ctrl.selectedPollutant &&
+						reading.source == $ctrl.selectedSource) {
+						if (reading.value) {
+							$ctrl.value = reading.value;
+						}
+					}
+				})
+
+			}
+		}
 
 		$ctrl.ok = function(value){
 			var year = $ctrl.resolve.year.year;
@@ -19,12 +36,6 @@ app.component('addEntryComponent', {
 			var source = $ctrl.selectedSource;
 			var pollutant = $ctrl.selectedPollutant;
 			var value = Number(value);
-
-			console.log('YEAR', year);
-			console.log('REGION', region);
-			console.log('SOURCE', source);
-			console.log('POLLUTANT', pollutant);
-			console.log('VALUE', value);
 
 			var latitude = '';
 			var longitude = '';
@@ -49,7 +60,6 @@ app.component('addEntryComponent', {
 		};
 
 		$ctrl.regionSelected = function(){
-			console.log('current selected region', $ctrl.selectedRegion);
 			return $ctrl.selectedRegion != null;
 		};
 
