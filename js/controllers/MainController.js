@@ -5,7 +5,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.pollutants = [];
 	var pollutants = ["PM","CO","SOX","NOX","VOC"];
 	// var pollutants = [];
-	var regions = ["Region 1","Region 2","Region 3","NCR","Region 4a","Region 4b","CAR"];
+	var regions = ["NCR", "CAR", "Region 1","Region 2","Region 3", "Region 4A","Region 4B","Region 5", "Region 6", "Region 7", "Region 8", "Region 9", "Region 10", "Region 11", "Region 12","CARAGA", "ARMM"];
 	// var regions = [];
 	$scope.year = {};
 	$scope.emission_year = [];
@@ -15,10 +15,43 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.current_year;
 	$scope.readings = [];
 
+	$scope.sorting_options = ["Default", "Stationary", "Mobile", "Area"];
+	$scope.selected_sort;
+
 	$scope.hasSelectedYear = function() {
 		console.log('has selected year', $scope.current_year.year);
 
 		return $scope.current_year.year ? true : false;
+	}
+
+	$scope.hasSelectedSort =function() {
+	 	switch ($scope.selected_sort) {
+	 		case 'Default':
+	 			restoreToDefaultSort();
+	 		break;
+	 		case 'Stationary':
+	 			$scope.getTotalReadingsBySource('Station');
+	 		break;
+	 		case 'Mobile':
+	 			$scope.getTotalReadingsBySource('Mobile');
+	 		break;
+	 		case 'Area':
+	 			$scope.getTotalReadingsBySource('Area');
+	 		break;
+	 	}
+	}
+
+	var restoreToDefaultSort = function() {
+		var defaultSort = [];
+		regions.forEach(function(region) {
+			$scope.regions.forEach(function(regionSnaphot) {
+				if (region == regionSnaphot.region) {
+					defaultSort.push(regionSnaphot);
+				}
+			})
+		})
+
+		$scope.regions = defaultSort;
 	}
 
 	$scope.addEntry = function(){
@@ -144,10 +177,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		var totalPollutantValueBySource = 0;
 
 		$scope.readings.forEach(function(reading) {
-<<<<<<< HEAD
-=======
-			console.log('reading pollutant', reading.pollutant);
->>>>>>> ff3a09cbd09314b4c087a92b25ac53bc0f9538c1
 			if (reading.pollutant == pollutantName) {
 				totalPollutantValue += reading.value;
 				if (reading.source == source) {
@@ -164,6 +193,48 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		return +totalPollutantValueBySource.toFixed(2) + '%';
 	};
+
+	$scope.getTotalReadingsBySource = function(source){
+		var perRegionTotal = [];
+		$scope.regions.forEach(function(region) {
+			var totalReading = {
+				region: region.region,
+				total: getTotalReadingsBySourceAndRegion(region.region, source)
+			}
+
+			perRegionTotal.push(totalReading);
+		})
+
+		console.log('GRAND TOTAL', perRegionTotal)
+		perRegionTotal.sort(function(a, b) {return b.total - a.total});
+		console.log('SORTED', perRegionTotal);
+
+		updateRegions(perRegionTotal);
+	};
+
+	var updateRegions = function(regionTotal) {
+		var newRegion = [];
+		regionTotal.forEach(function(region) {
+			$scope.regions.forEach(function(regionSnaphot) {
+				if (region.region == regionSnaphot.region) {
+					newRegion.push(regionSnaphot);
+				}
+			})
+		})
+		$scope.regions = newRegion;
+	};
+
+	var getTotalReadingsBySourceAndRegion = function(region, source) {
+		var totalValue = 0;
+
+		$scope.readings.forEach(function(reading) {
+			if (reading.region == region && reading.source == source) {
+				totalValue += reading.value;
+			}
+		})
+
+		return totalValue;
+	}
 
 	$scope.getReadingsBy = function(regionName, source){
 		var computedReadings = [];
@@ -305,10 +376,6 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 	$scope.fetchReadings = function(){
 		var promises = [];
-
-		// firebaseSignIn()
-		// .then(function(result){
-			//get years
 			databaseService.getAllYears()
 			.then(function(years){
 				console.log('years', years);
@@ -351,6 +418,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		// });
 	};
 
+
 	var sortRegions = function(regions){
 		var sortedRegions = [];
 		var otherRegions = [];
@@ -363,11 +431,12 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			}
 		})
 
+
 		regions = otherRegions;
 		otherRegions = [];
 
 		regions.forEach(function(region){
-			if (region.region.toLowerCase() == "region 1") {
+			if (region.region.toLowerCase() == "car") {
 				sortedRegions.push(region);
 			} else {
 				otherRegions.push(region);
@@ -378,7 +447,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 		otherRegions = [];
 
 		regions.forEach(function(region){
-			if (region.region.toLowerCase() == "car") {
+			if (region.region.toLowerCase() == "region 1") {
 				sortedRegions.push(region);
 			} else {
 				otherRegions.push(region);
