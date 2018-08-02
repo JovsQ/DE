@@ -407,6 +407,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 			.then(function(regions){
 				console.log('FETCHING REGIONS', regions);
 				$scope.regions = sortRegions(regions);
+				$scope.selected_sort = $scope.sorting_options[0];
 			});
 
 			databaseService.getAllPollutants()

@@ -3,14 +3,27 @@
     <div id="page-wrapper">
         <div class="row">
 
-            <div class="col-lg-2">
+            <div style="display: flex; flex-direction: row; align-items: center; width: 100%; flex-wrap: wrap;">
+                <div style="display: flex; flex: 2; align-self: flex-start;">
+                    <img ng-src="images/denr_logo.png" style="width: 150px; height: 100px;">
+                </div>
+                <div style="display: flex; align-self: center; justify-content: center; align-items: center; flex: 6">
+                    <h1>Emission Inventory Compilation WebApp</h1>    
+                </div>
+                <div style="display: flex; flex: 2;">
+                </div>
+            </div>
+
+            <!-- <div class="col-lg-2">
                 <img ng-src="images/denr_logo.png" style="width: 150px; height: 100px;">    
             </div>
             <div class="col-lg-8" style="margin-bottom: 40px; display: flex; justify-content: center; align-items: center;">
                 <h1>Emission Inventory Compilation WebApp</h1>
-            </div>                
+            </div>    -->      
 
-            <div style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap; width: 100%">
+            <div style="display: flex; justify-content: flex-end; padding-right: 50px; font-style: italic;">MASS RATE Expressed in TONS/YEAR</div>   
+
+            <div style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap; width: 100%; margin-top: 10px; margin-bottom: 10px;">
                 <div style="display: flex; flex: 1; padding: 5px;">
                     <select class="form-control" ng-model="current_year.year" ng-change="fetchReadings()">
                         <option value='' selected="true" disabled="disabled">Select Year</option>
@@ -35,7 +48,7 @@
                         <option ng-repeat="sort in sorting_options" ng-value="sort">{{sort}}</option>
                     </select>
                 </div>
-            </div>
+            </div>    
 
             <div class="row">
                 <div class="col-lg-12">
