@@ -78,16 +78,16 @@
 
                                     <!-- stationary -->
                                     <td class="labels" style="color: red">
-                                        Stationary
+                                        {{getSource()}}
                                     </td>
                                     
                                     <!-- pollutants -->
-                                    <td ng-repeat="value in getReadingsBy(region.region, 'Station') track by $index">
+                                    <td ng-repeat="value in getReadingsByValue(region.region, 'Station') track by $index">
                                        {{value}}
                                     </td>
                                 </tr>
 
-                                <tr>
+                                <tr ng-show="showFiltered('Mobile')">
                                     <!-- stationary -->
                                     <td class="labels" style="color: red">
                                         Mobile
@@ -99,7 +99,7 @@
                                     </td>
                                 </tr>
 
-                                <tr>
+                                <tr ng-show="showFiltered('Area')">
                                     <!-- area -->
                                     <td class="labels" style="color: red">
                                         Area

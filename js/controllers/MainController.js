@@ -44,6 +44,28 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	 	}
 	}
 
+	$scope.getSource = function() {
+		var source = 'Stationary';
+		if ($scope.selected_filter != 'Default') {
+			source = $scope.selected_filter;
+		}
+
+		return source;
+	}
+
+	$scope.showFiltered = function(source) {
+		// return $scope.selected_filter === 'Default' || source === $scope.selected_filter;
+		return $scope.selected_filter === 'Default';
+	}
+
+	$scope.checkRowSpan = function() {
+		var numberOfRowSpan = 3;
+		if ($scope.selected_filter != 'Default') {
+			numberOfRowSpan = 1;
+		}
+		return numberOfRowSpan;
+	}
+
 	$scope.hasSelectedFilter = function() {
 		switch ($scope.selected_filter) {
 			case 'Default':
@@ -268,6 +290,15 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 
 		return computedReadings; 
 	};
+
+	$scope.getReadingsByValue = function(regionName, source) {
+		if ($scope.selected_filter != 'Default') {
+			var correctedSource = $scope.selected_filter == 'Stationary' ? 'Station' : $scope.selected_filter;
+			return $scope.getReadingsBy(regionName, correctedSource);
+		} else {
+			return $scope.getReadingsBy(regionName, source);
+		}
+	}
 
 
 	var getTotalReadingsByRegion = function(regionName, source){
