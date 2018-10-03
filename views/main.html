@@ -14,13 +14,6 @@
                 </div>
             </div>
 
-            <!-- <div class="col-lg-2">
-                <img ng-src="images/denr_logo.png" style="width: 150px; height: 100px;">    
-            </div>
-            <div class="col-lg-8" style="margin-bottom: 40px; display: flex; justify-content: center; align-items: center;">
-                <h1>Emission Inventory Compilation WebApp</h1>
-            </div>    -->      
-
             <div style="display: flex; justify-content: flex-end; padding-right: 50px; font-style: italic;">MASS RATE Expressed in TONS/YEAR</div>   
 
             <div style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap; width: 100%; margin-top: 10px; margin-bottom: 10px;">
@@ -46,6 +39,12 @@
                     <label style="display: flex; flex: 1; justify-content: center; align-items: center;">Sort by: </label>
                     <select class="form-control" ng-init="selected_sort = sorting_options[0]" ng-model="selected_sort" ng-change="hasSelectedSort()" style="display: flex; flex: 1.5;" ng-disabled="!current_year.year">
                         <option ng-repeat="sort in sorting_options" ng-value="sort">{{sort}}</option>
+                    </select>
+                </div>
+                <div style="display: flex; flex: 1; padding: 5px; flex-direction: row;">
+                    <label style="display: flex; flex: 1; justify-content: center; align-items: center;">Filter by: </label>
+                    <select class="form-control" ng-init="selected_filter = filtering_options[0]" ng-model="selected_filter" ng-change="hasSelectedFilter()" style="display: flex; flex: 1.5;" ng-disabled="!current_year.year">
+                        <option ng-repeat="filter in filtering_options" ng-value="filter">{{filter}}</option>
                     </select>
                 </div>
             </div>    

@@ -18,6 +18,9 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	$scope.sorting_options = ["Default", "Stationary", "Mobile", "Area"];
 	$scope.selected_sort;
 
+	$scope.filtering_options = ["Default", "Stationary", "Mobile", "Area"];
+	$scope.selected_filter;
+
 	$scope.hasSelectedYear = function() {
 		console.log('has selected year', $scope.current_year.year);
 
@@ -39,6 +42,23 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 	 			$scope.getTotalReadingsBySource('Area');
 	 		break;
 	 	}
+	}
+
+	$scope.hasSelectedFilter = function() {
+		switch ($scope.selected_filter) {
+			case 'Default':
+				console.log('Default filter selected');
+			break;
+			case 'Stationary':
+				console.log('Stationary filter selected');
+			break;
+			case 'Mobile':
+				console.log('Mobile filter selected');
+			break;
+			case 'Area':
+				console.log('Area filter selected');
+			break;
+		}
 	}
 
 	var restoreToDefaultSort = function() {
@@ -408,6 +428,7 @@ app.controller('MainController', ['$scope', '$q', '$uibModal', 'databaseService'
 				console.log('FETCHING REGIONS', regions);
 				$scope.regions = sortRegions(regions);
 				$scope.selected_sort = $scope.sorting_options[0];
+				$scope.selected_filter = $scope.filtering_options[0];
 			});
 
 			databaseService.getAllPollutants()
